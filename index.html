@@ -1,11 +1,559 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Royvil Domingo</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b12">
+  <meta name="description" content="Royvil Domingo — student developer building practical web systems, database-driven applications, and secure, maintainable software.">
+  <title>Royvil Domingo — Developer Portfolio</title>
+
+  <!-- Tailwind CSS CDN: suitable for a quick preview or static deployment. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#080b12',
+            panel: '#0d121d',
+            line: '#202a3a',
+            muted: '#94a3b8',
+            accent: '#8b9cff',
+            mint: '#6ee7c4'
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
+          },
+          boxShadow: {
+            glow: '0 0 55px rgba(139, 156, 255, .12)'
+          }
+        }
+      }
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      background: #080b12;
+      color: #edf2fb;
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    ::selection { background: rgba(139, 156, 255, .32); color: #fff; }
+    .grid-bg {
+      background-image: linear-gradient(rgba(148,163,184,.045) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(148,163,184,.045) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to bottom, black, transparent 88%);
+      -webkit-mask-image: linear-gradient(to bottom, black, transparent 88%);
+    }
+    .noise::after {
+      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+    }
+    .glass { background: rgba(13,18,29,.78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+    .border-gradient { position: relative; isolation: isolate; }
+    .border-gradient::before {
+      content: ""; position: absolute; inset: 0; padding: 1px; border-radius: inherit;
+      background: linear-gradient(135deg, rgba(139,156,255,.45), rgba(110,231,196,.12), rgba(148,163,184,.12));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: -1;
+    }
+    .text-gradient { background: linear-gradient(110deg, #f5f7ff 8%, #aab6ff 55%, #82e8d0 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .eyebrow { font-family: 'DM Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .nav-link { color: #9aa8bd; transition: color .2s ease; }
+    .nav-link:hover, .nav-link:focus-visible { color: #fff; }
+    .btn-primary { background: #dfe5ff; color: #0b1020; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .btn-primary:hover { transform: translateY(-2px); background: #fff; box-shadow: 0 10px 30px rgba(139,156,255,.17); }
+    .btn-secondary { border: 1px solid #344057; color: #dbe4f4; transition: all .2s ease; }
+    .btn-secondary:hover { border-color: #8394ff; background: rgba(139,156,255,.08); transform: translateY(-2px); }
+    .card { background: linear-gradient(145deg, rgba(16,23,37,.95), rgba(10,14,23,.97)); border: 1px solid #202a3a; transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
+    .card:hover { border-color: rgba(139,156,255,.48); transform: translateY(-4px); box-shadow: 0 18px 48px rgba(0,0,0,.22); }
+    .tag { border: 1px solid #29364b; background: rgba(148,163,184,.055); color: #bac7da; }
+    .filter-btn { border: 1px solid #263247; color: #9eacc2; transition: all .2s ease; }
+    .filter-btn[aria-pressed="true"] { border-color: rgba(139,156,255,.7); color: #e8ebff; background: rgba(139,156,255,.12); }
+    .filter-btn:hover { color: #fff; border-color: #6474a8; }
+    .timeline-dot { box-shadow: 0 0 0 5px rgba(139,156,255,.1); }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .modal-backdrop { background: rgba(2,5,10,.78); backdrop-filter: blur(10px); }
+    .modal-panel { animation: modal-in .2s ease-out both; }
+    @keyframes modal-in { from { opacity: 0; transform: translateY(12px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    #scrollProgress { transform-origin: left; transform: scaleX(0); }
+    .skip-link { position: absolute; top: -60px; left: 1rem; z-index: 100; padding: .75rem 1rem; background: #fff; color: #080b12; border-radius: .5rem; }
+    .skip-link:focus { top: 1rem; }
+    :focus-visible { outline: 2px solid #aab6ff; outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
 </head>
-<body>
-    <h1>hel</h1>
+<body class="noise overflow-x-hidden">
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="fixed inset-x-0 top-0 z-[60] h-[2px] bg-transparent"><div id="scrollProgress" class="h-full w-full bg-gradient-to-r from-accent to-mint"></div></div>
+
+  <!-- Background treatment -->
+  <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div class="grid-bg absolute inset-x-0 top-0 h-[900px]"></div>
+    <div class="absolute -top-48 left-1/2 h-[540px] w-[780px] -translate-x-1/2 rounded-full bg-indigo-500/[0.09] blur-[130px]"></div>
+    <div class="absolute right-[-12rem] top-[42rem] h-[420px] w-[420px] rounded-full bg-emerald-400/[0.035] blur-[120px]"></div>
+  </div>
+
+  <!-- Navigation -->
+  <header class="sticky top-0 z-40 border-b border-white/[0.06] glass">
+    <nav aria-label="Main navigation" class="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
+      <a href="#home" class="group flex items-center gap-3" aria-label="Royvil Domingo home">
+        <span class="grid h-9 w-9 place-items-center rounded-xl border border-indigo-300/20 bg-indigo-300/10 font-semibold text-indigo-100">RD</span>
+        <span class="text-sm font-semibold tracking-tight text-slate-100">Royvil Domingo<span class="text-accent">.</span></span>
+      </a>
+      <div class="hidden items-center gap-8 text-[13px] font-medium md:flex">
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="#projects">Projects</a>
+        <a class="nav-link" href="#journey">Journey</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </div>
+      <a href="#contact" class="hidden rounded-full px-4 py-2 text-xs font-semibold btn-secondary md:inline-flex">Let’s connect <span aria-hidden="true" class="ml-2">↗</span></a>
+      <button id="menuToggle" class="grid h-10 w-10 place-items-center rounded-lg border border-line text-slate-200 md:hidden" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+        <svg id="menuIcon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
+      </button>
+    </nav>
+    <div id="mobileMenu" class="hidden border-t border-white/[0.06] px-5 py-4 md:hidden">
+      <div class="mx-auto flex max-w-7xl flex-col gap-4 text-sm">
+        <a class="nav-link mobile-nav-link" href="#about">About</a>
+        <a class="nav-link mobile-nav-link" href="#projects">Projects</a>
+        <a class="nav-link mobile-nav-link" href="#journey">Journey</a>
+        <a class="nav-link mobile-nav-link" href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero -->
+    <section id="home" class="relative mx-auto flex min-h-[690px] max-w-7xl items-center px-5 pb-24 pt-24 sm:px-8 lg:min-h-[760px] lg:px-10 lg:pb-32 lg:pt-28">
+      <div class="grid w-full items-center gap-14 lg:grid-cols-[1.2fr_.8fr] lg:gap-16">
+        <div class="relative z-10">
+          <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/[0.06] px-3 py-1.5 text-xs text-emerald-200">
+            <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-40"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-300"></span></span>
+            Student developer · Philippines
+          </div>
+          <p class="eyebrow mb-5 text-[11px] text-accent">Full-stack development / systems thinking</p>
+          <h1 class="max-w-3xl text-5xl font-semibold leading-[1.08] tracking-[-.055em] text-white sm:text-6xl lg:text-[4.65rem]">
+            I build practical <span class="text-gradient">web systems</span> from interface to data layer.
+          </h1>
+          <p class="mt-7 max-w-2xl text-base leading-8 text-slate-400 sm:text-lg">
+            I’m Royvil Domingo, a student developer focused on turning real workflows into usable, database-driven applications. My work spans frontend experiences, backend logic, data management, and the systems fundamentals that keep software dependable.
+          </p>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href="#projects" class="btn-primary inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold">Explore my work <span aria-hidden="true" class="ml-2">↗</span></a>
+            <a href="#contact" class="btn-secondary inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold">Get in touch</a>
+          </div>
+          <div class="mt-12 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-white/[0.08] pt-6 text-xs text-slate-500">
+            <span class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-accent"></span> Full-stack web applications</span>
+            <span class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-mint"></span> Database-driven workflows</span>
+            <span class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-slate-500"></span> Networking fundamentals</span>
+          </div>
+        </div>
+
+        <!-- Decorative architecture panel -->
+        <div class="relative mx-auto w-full max-w-[430px] lg:ml-auto">
+          <div class="absolute -inset-8 rounded-[2rem] bg-indigo-400/[0.06] blur-3xl"></div>
+          <div class="border-gradient relative rounded-3xl border border-white/10 bg-[#0b101a]/90 p-5 shadow-glow sm:p-6">
+            <div class="flex items-center justify-between border-b border-white/[0.07] pb-4">
+              <div class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-rose-400/80"></span><span class="h-2 w-2 rounded-full bg-amber-300/80"></span><span class="h-2 w-2 rounded-full bg-emerald-300/80"></span></div>
+              <span class="eyebrow text-[9px] text-slate-500">system.map</span>
+              <span class="text-[10px] text-slate-600">01 / 04</span>
+            </div>
+            <div class="py-7">
+              <div class="mb-5 flex items-center justify-between">
+                <div><p class="eyebrow text-[9px] text-accent">How I approach software</p><h2 class="mt-2 text-xl font-semibold tracking-tight">From problem to product</h2></div>
+                <div class="grid h-11 w-11 place-items-center rounded-2xl border border-accent/20 bg-accent/10 text-accent"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7.5 12 3l8 4.5v9L12 21l-8-4.5z"/><path d="m4.5 7.7 7.5 4.4 7.5-4.4M12 12.1V21"/></svg></div>
+              </div>
+              <div class="space-y-3">
+                <div class="rounded-xl border border-line bg-white/[0.025] p-4"><div class="flex items-center justify-between"><span class="text-xs font-medium text-slate-200">01. Understand the workflow</span><span class="eyebrow text-[9px] text-slate-600">DISCOVER</span></div><p class="mt-1.5 text-xs leading-5 text-slate-500">Identify the users, bottlenecks, and information that matter.</p></div>
+                <div class="mx-auto h-3 w-px bg-gradient-to-b from-accent/60 to-mint/50"></div>
+                <div class="rounded-xl border border-indigo-300/20 bg-indigo-300/[0.045] p-4"><div class="flex items-center justify-between"><span class="text-xs font-medium text-slate-100">02. Design the architecture</span><span class="eyebrow text-[9px] text-accent">STRUCTURE</span></div><p class="mt-1.5 text-xs leading-5 text-slate-400">Connect interfaces, application logic, roles, and data.</p></div>
+                <div class="mx-auto h-3 w-px bg-gradient-to-b from-accent/60 to-mint/50"></div>
+                <div class="rounded-xl border border-emerald-300/20 bg-emerald-300/[0.035] p-4"><div class="flex items-center justify-between"><span class="text-xs font-medium text-slate-100">03. Build and refine</span><span class="eyebrow text-[9px] text-mint">DELIVER</span></div><p class="mt-1.5 text-xs leading-5 text-slate-400">Implement, validate, and improve the experience end to end.</p></div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between border-t border-white/[0.07] pt-4 text-[10px] text-slate-600"><span>INTERFACE → LOGIC → DATA</span><span class="font-mono text-mint">● BUILDING</span></div>
+          </div>
+          <div class="absolute -bottom-5 -left-5 hidden rounded-xl border border-line bg-panel px-4 py-3 shadow-xl sm:block"><p class="eyebrow text-[9px] text-slate-500">Primary focus</p><p class="mt-1 text-xs font-medium text-slate-200">Useful software, built end to end</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About and skills -->
+    <section id="about" class="border-y border-white/[0.06] bg-white/[0.015] py-24 sm:py-28">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div class="grid gap-14 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
+          <div class="reveal">
+            <p class="eyebrow text-[11px] text-accent">01 / About</p>
+            <h2 class="mt-5 text-3xl font-semibold tracking-[-.04em] text-white sm:text-4xl">A systems mindset, with the user in view.</h2>
+            <div class="mt-7 space-y-5 text-sm leading-7 text-slate-400">
+              <p>I’m a student developer building a foundation across application development, databases, networking, and security. I’m most interested in software that replaces scattered manual steps with clearer, more reliable workflows.</p>
+              <p>My current work includes a Laravel-based management platform and a Flask borrowing application. These projects have given me practical experience connecting user interfaces to server-side logic, designing relational data flows, and thinking through access, validation, and operational needs.</p>
+              <p>I approach development as more than writing code: understand the problem, model the information, build the flow, and make the result easier to use and maintain.</p>
+            </div>
+            <div class="mt-8 flex flex-wrap gap-2"><span class="tag rounded-full px-3 py-1.5 text-[11px]">Problem solving</span><span class="tag rounded-full px-3 py-1.5 text-[11px]">End-to-end execution</span><span class="tag rounded-full px-3 py-1.5 text-[11px]">Continuous learning</span></div>
+          </div>
+
+          <div class="reveal">
+            <div class="mb-5 flex items-end justify-between gap-4"><div><p class="eyebrow text-[11px] text-slate-500">Toolkit</p><h3 class="mt-2 text-xl font-semibold text-white">Skills & technologies</h3></div><span class="text-right text-[10px] text-slate-600">Based on tools and topics<br>discussed in our work</span></div>
+            <div class="grid gap-3 sm:grid-cols-2">
+              <article class="card rounded-2xl p-5">
+                <div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-xl bg-indigo-300/10 text-accent"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4M7 9h4m-4 3h8"/></svg></span><h4 class="text-sm font-semibold">Frontend</h4></div>
+                <p class="mt-4 text-xs leading-6 text-slate-400">HTML5, CSS3, JavaScript, Blade templates, responsive layouts, Tailwind CSS, Bootstrap (coursework)</p>
+              </article>
+              <article class="card rounded-2xl p-5">
+                <div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-xl bg-emerald-300/10 text-mint"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3 4 7v10l8 4 8-4V7z"/><path d="m4 7 8 4 8-4m-8 4v10"/></svg></span><h4 class="text-sm font-semibold">Backend</h4></div>
+                <p class="mt-4 text-xs leading-6 text-slate-400">PHP, Laravel 12, Python, Flask, MVC structure, CRUD operations, validation, role-based access</p>
+              </article>
+              <article class="card rounded-2xl p-5">
+                <div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-xl bg-sky-300/10 text-sky-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"/></svg></span><h4 class="text-sm font-semibold">Databases</h4></div>
+                <p class="mt-4 text-xs leading-6 text-slate-400">MySQL, MariaDB, SQLite, relational data modeling, SQL queries, table relationships</p>
+              </article>
+              <article class="card rounded-2xl p-5">
+                <div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-xl bg-violet-300/10 text-violet-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M7 21h10M12 17v4M8 9l2 2-2 2m4 0h3"/></svg></span><h4 class="text-sm font-semibold">Systems & tools</h4></div>
+                <p class="mt-4 text-xs leading-6 text-slate-400">Git/GitHub, Vite, XAMPP, Windows, command line, local development and deployment workflows</p>
+              </article>
+              <article class="card rounded-2xl p-5">
+                <div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-xl bg-amber-300/10 text-amber-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9S9.5 5.5 12 3Z"/></svg></span><h4 class="text-sm font-semibold">Networking</h4></div>
+                <p class="mt-4 text-xs leading-6 text-slate-400">IPv4 addressing, subnetting, VLSM, FLSM, subnet masks, LAN fundamentals</p>
+              </article>
+              <article class="card rounded-2xl p-5">
+                <div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-xl bg-rose-300/10 text-rose-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3 4 6v5c0 5 3.4 8.2 8 10 4.6-1.8 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span><h4 class="text-sm font-semibold">Security & quality</h4></div>
+                <p class="mt-4 text-xs leading-6 text-slate-400">Security fundamentals, threat analysis concepts, software testing, input validation, access control</p>
+              </article>
+              <article class="card rounded-2xl p-5">
+                <div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-xl bg-fuchsia-300/10 text-fuchsia-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m8 8-4 4 4 4m8-8 4 4-4 4m-3-11-2 14" stroke-linecap="round" stroke-linejoin="round"/></svg></span><h4 class="text-sm font-semibold">Programming fundamentals</h4></div>
+                <p class="mt-4 text-xs leading-6 text-slate-400">C++, Python fundamentals, linked lists, queues, searching, sorting, and introductory digital-logic exercises</p>
+              </article>
+            </div>
+            <p class="mt-4 text-[11px] leading-5 text-slate-600">Skills reflect technologies and subjects discussed or used in coursework and projects; proficiency levels are not independently assessed.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="py-24 sm:py-28">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div class="reveal flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+          <div><p class="eyebrow text-[11px] text-accent">02 / Selected work</p><h2 class="mt-5 text-3xl font-semibold tracking-[-.04em] text-white sm:text-4xl">Projects built around real workflows.</h2><p class="mt-4 max-w-xl text-sm leading-7 text-slate-400">A closer look at the applications and research work I’ve discussed and developed.</p></div>
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filter projects">
+            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="all" aria-pressed="true">All work</button>
+            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="web" aria-pressed="false">Web apps</button>
+            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="research" aria-pressed="false">Research</button>
+          </div>
+        </div>
+
+        <div id="projectGrid" class="mt-10 grid gap-5 lg:grid-cols-2">
+          <!-- Project 1 -->
+          <article class="project-card card reveal group overflow-hidden rounded-3xl" data-category="web">
+            <div class="relative min-h-[220px] overflow-hidden border-b border-line bg-[#0b1421] p-6 sm:p-8">
+              <div class="absolute right-[-2rem] top-[-4rem] h-52 w-52 rounded-full bg-indigo-400/[0.1] blur-3xl transition-transform duration-500 group-hover:scale-125"></div>
+              <div class="relative rounded-xl border border-slate-700/70 bg-[#0b101a] p-4 shadow-2xl sm:p-5">
+                <div class="flex items-center justify-between border-b border-white/[0.07] pb-3"><div class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-indigo-300"></span><span class="text-[10px] font-medium text-slate-300">Dialysis Center · Overview</span></div><span class="text-[9px] text-slate-600">ADMIN DASHBOARD</span></div>
+                <div class="mt-4 grid grid-cols-3 gap-2"><div class="rounded-lg border border-line bg-white/[0.025] p-3"><div class="h-1 w-6 rounded bg-indigo-300/70"></div><div class="mt-3 h-4 w-10 rounded bg-slate-500/35"></div><div class="mt-2 h-1.5 w-12 rounded bg-slate-700"></div></div><div class="rounded-lg border border-line bg-white/[0.025] p-3"><div class="h-1 w-6 rounded bg-emerald-300/70"></div><div class="mt-3 h-4 w-10 rounded bg-slate-500/35"></div><div class="mt-2 h-1.5 w-12 rounded bg-slate-700"></div></div><div class="rounded-lg border border-line bg-white/[0.025] p-3"><div class="h-1 w-6 rounded bg-sky-300/70"></div><div class="mt-3 h-4 w-10 rounded bg-slate-500/35"></div><div class="mt-2 h-1.5 w-12 rounded bg-slate-700"></div></div></div>
+                <div class="mt-3 grid grid-cols-[1.15fr_.85fr] gap-2"><div class="h-16 rounded-lg border border-line bg-gradient-to-r from-indigo-400/[0.08] to-transparent p-3"><div class="h-1.5 w-16 rounded bg-slate-600/70"></div><div class="mt-3 flex h-6 items-end gap-1"><span class="h-3 w-3 rounded-t bg-indigo-300/30"></span><span class="h-5 w-3 rounded-t bg-indigo-300/50"></span><span class="h-4 w-3 rounded-t bg-indigo-300/40"></span><span class="h-6 w-3 rounded-t bg-indigo-300/70"></span><span class="h-3 w-3 rounded-t bg-indigo-300/30"></span><span class="h-5 w-3 rounded-t bg-indigo-300/50"></span></div></div><div class="rounded-lg border border-line bg-white/[0.025] p-3"><div class="h-1.5 w-12 rounded bg-slate-600/70"></div><div class="mt-3 flex items-center gap-2"><div class="h-7 w-7 rounded-full border-2 border-emerald-300/60"></div><div class="h-1.5 w-12 rounded bg-slate-700"></div></div></div></div>
+              </div>
+              <span class="absolute bottom-5 right-6 eyebrow text-[9px] text-slate-600">01 — MANAGEMENT SYSTEM</span>
+            </div>
+            <div class="p-6 sm:p-8">
+              <div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-indigo-300/20 bg-indigo-300/[0.08] px-2.5 py-1 text-[10px] font-medium text-indigo-200">Featured project</span><span class="text-[10px] text-slate-600">Full-stack web application</span></div>
+              <h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Dialysis Center Management System</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-400">A centralized platform designed to organize dialysis-center operations that would otherwise be spread across separate records and manual processes.</p>
+              <div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Laravel 12</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">PHP</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">MySQL</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Blade</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">JavaScript</span></div>
+              <div class="mt-7 flex items-center justify-between border-t border-white/[0.07] pt-5"><button class="case-open inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="dialysis">Explore case study <span aria-hidden="true">↗</span></button><span class="text-[10px] text-slate-600">In development</span></div>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="project-card card reveal group overflow-hidden rounded-3xl" data-category="web">
+            <div class="relative min-h-[220px] overflow-hidden border-b border-line bg-[#0b1718] p-6 sm:p-8">
+              <div class="absolute -left-10 top-[-4rem] h-56 w-56 rounded-full bg-emerald-300/[0.09] blur-3xl transition-transform duration-500 group-hover:scale-125"></div>
+              <div class="relative mx-auto max-w-sm rounded-xl border border-slate-700/70 bg-[#0b1018] p-4 shadow-2xl sm:p-5">
+                <div class="flex items-center justify-between border-b border-white/[0.07] pb-3"><span class="text-[10px] font-medium text-slate-300">Equipment Borrowing</span><span class="rounded-full bg-emerald-300/10 px-2 py-1 text-[9px] text-emerald-200">Borrower portal</span></div>
+                <div class="mt-4 flex items-center gap-3"><div class="grid h-10 w-10 place-items-center rounded-lg bg-emerald-300/10 text-emerald-200"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 7h16v13H4zM8 7V4h8v3M8 12h8m-8 4h5"/></svg></div><div><div class="h-2 w-24 rounded bg-slate-300/50"></div><div class="mt-2 h-1.5 w-16 rounded bg-slate-700"></div></div></div>
+                <div class="mt-4 space-y-2"><div class="flex items-center justify-between rounded-lg border border-line bg-white/[0.025] p-3"><div><div class="h-1.5 w-20 rounded bg-slate-500/70"></div><div class="mt-2 h-1.5 w-12 rounded bg-slate-700"></div></div><span class="rounded-md border border-amber-300/20 bg-amber-300/[0.07] px-2 py-1 text-[9px] text-amber-200">Pending</span></div><div class="flex items-center justify-between rounded-lg border border-line bg-white/[0.025] p-3"><div><div class="h-1.5 w-24 rounded bg-slate-500/70"></div><div class="mt-2 h-1.5 w-14 rounded bg-slate-700"></div></div><span class="rounded-md border border-emerald-300/20 bg-emerald-300/[0.07] px-2 py-1 text-[9px] text-emerald-200">Approved</span></div></div>
+              </div>
+              <span class="absolute bottom-5 right-6 eyebrow text-[9px] text-slate-600">02 — BORROWING WORKFLOW</span>
+            </div>
+            <div class="p-6 sm:p-8">
+              <div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-emerald-300/20 bg-emerald-300/[0.07] px-2.5 py-1 text-[10px] font-medium text-emerald-200">Workflow application</span><span class="text-[10px] text-slate-600">Academic project</span></div>
+              <h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Flask Library / Equipment Borrowing System</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-400">A borrower-facing system concept for managing equipment availability and requests, with administrator approval and quantity-aware borrowing rules.</p>
+              <div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Python</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Flask</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">SQLite</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">HTML</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">CSS</span></div>
+              <div class="mt-7 flex items-center justify-between border-t border-white/[0.07] pt-5"><button class="case-open inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-mint" data-case="borrow">Explore case study <span aria-hidden="true">↗</span></button><span class="text-[10px] text-slate-600">Academic build</span></div>
+            </div>
+          </article>
+
+          <!-- Research item -->
+          <article class="project-card card reveal overflow-hidden rounded-3xl lg:col-span-2" data-category="research">
+            <div class="grid lg:grid-cols-[.8fr_1.2fr]">
+              <div class="relative flex min-h-[210px] items-center justify-center overflow-hidden border-b border-line bg-[#141324] p-8 lg:border-b-0 lg:border-r">
+                <div class="absolute h-48 w-48 rounded-full bg-violet-400/[0.09] blur-3xl"></div>
+                <div class="relative w-full max-w-[270px] rounded-xl border border-violet-200/10 bg-[#0b101a] p-5 shadow-2xl"><p class="eyebrow text-[9px] text-violet-200">Research snapshot</p><div class="mt-5 grid grid-cols-2 gap-3"><div class="rounded-lg border border-line p-3"><p class="text-[9px] text-slate-500">Method</p><p class="mt-1 text-xs font-medium text-slate-200">Survey-based</p></div><div class="rounded-lg border border-line p-3"><p class="text-[9px] text-slate-500">Instrument</p><p class="mt-1 text-xs font-medium text-slate-200">Google Forms</p></div><div class="col-span-2 rounded-lg border border-line p-3"><p class="text-[9px] text-slate-500">Analysis topics</p><div class="mt-2 flex flex-wrap gap-1.5"><span class="rounded bg-violet-300/10 px-2 py-1 text-[9px] text-violet-200">Descriptive statistics</span><span class="rounded bg-violet-300/10 px-2 py-1 text-[9px] text-violet-200">Normality tests</span><span class="rounded bg-violet-300/10 px-2 py-1 text-[9px] text-violet-200">Group comparisons</span></div></div></div></div>
+              </div>
+              <div class="p-6 sm:p-8">
+                <div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-violet-300/20 bg-violet-300/[0.07] px-2.5 py-1 text-[10px] font-medium text-violet-200">Research / academic work</span><span class="text-[10px] text-slate-600">2023–2024 study period</span></div>
+                <h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Technology and Academic Performance Study</h3>
+                <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-400">A school research project examining the impact of technology on the academic performance of aspiring engineering students at Saint John School, Makapilapil, San Ildefonso, Bulacan. The working study involved Grade 12 students and survey-based data collection.</p>
+                <div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Research methods</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Google Forms</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Descriptive statistics</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Statistical testing</span></div>
+                <div class="mt-7 border-t border-white/[0.07] pt-5"><p class="text-xs leading-6 text-slate-500">Research scope and results should be updated to match the final submitted paper before publication.</p></div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <p id="noProjects" class="mt-8 hidden text-center text-sm text-slate-500">No projects in this category yet.</p>
+      </div>
+    </section>
+
+    <!-- Journey -->
+    <section id="journey" class="border-y border-white/[0.06] bg-white/[0.015] py-24 sm:py-28">
+      <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+        <div class="grid gap-14 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
+          <div class="reveal"><p class="eyebrow text-[11px] text-accent">03 / Journey</p><h2 class="mt-5 text-3xl font-semibold tracking-[-.04em] text-white sm:text-4xl">Building the foundation behind the work.</h2><p class="mt-5 text-sm leading-7 text-slate-400">My learning path combines application development with networking, security, and analytical coursework. The details below are intentionally conservative; add exact dates and official titles where marked.</p></div>
+          <div class="reveal">
+            <div class="relative space-y-8 before:absolute before:bottom-3 before:left-[7px] before:top-2 before:w-px before:bg-gradient-to-b before:from-accent/60 before:via-slate-700 before:to-transparent">
+              <article class="relative pl-9"><span class="timeline-dot absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-accent bg-ink"></span><p class="eyebrow text-[9px] text-accent">Education · dates to add</p><h3 class="mt-2 text-base font-semibold text-white">BASC — Higher education coursework</h3><p class="mt-2 text-sm leading-6 text-slate-400">Student coursework includes IT-related subjects and NSTP-CWTS. Add your exact degree/program, campus name, year level, and attendance dates.</p><p class="mt-2 text-[11px] text-slate-600">[INSERT_PROGRAM] · [INSERT_START_YEAR–EXPECTED_GRADUATION]</p></article>
+              <article class="relative pl-9"><span class="timeline-dot absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-slate-500 bg-ink"></span><p class="eyebrow text-[9px] text-slate-500">Certification · verify details</p><h3 class="mt-2 text-base font-semibold text-white">Google Cybersecurity Certificate</h3><p class="mt-2 text-sm leading-6 text-slate-400">This credential was mentioned in prior career-profile context. Confirm that it was completed and add the official credential link and completion date before presenting it as earned.</p><p class="mt-2 text-[11px] text-slate-600">[INSERT_CREDENTIAL_URL] · [INSERT_COMPLETION_DATE]</p></article>
+              <article class="relative pl-9"><span class="timeline-dot absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-slate-500 bg-ink"></span><p class="eyebrow text-[9px] text-slate-500">Student activities · details to confirm</p><h3 class="mt-2 text-base font-semibold text-white">Builders Information Technology Society</h3><p class="mt-2 text-sm leading-6 text-slate-400">Organization involvement was mentioned previously. Add your actual position, contributions, and participation dates if applicable.</p><p class="mt-2 text-[11px] text-slate-600">[INSERT_ROLE_AND_DATES]</p></article>
+              <article class="relative pl-9"><span class="timeline-dot absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-slate-500 bg-ink"></span><p class="eyebrow text-[9px] text-slate-500">Event · details to confirm</p><h3 class="mt-2 text-base font-semibold text-white">National hackathon participation</h3><p class="mt-2 text-sm leading-6 text-slate-400">A national hackathon was referenced in prior context, but the event name, year, team role, and result were not available.</p><p class="mt-2 text-[11px] text-slate-600">[INSERT_EVENT_NAME] · [INSERT_YEAR_AND_RESULT]</p></article>
+            </div>
+            <div class="mt-10 rounded-2xl border border-amber-200/10 bg-amber-200/[0.035] p-4"><p class="text-xs leading-6 text-amber-100/75"><strong class="font-semibold text-amber-100">Before publishing:</strong> keep only credentials and memberships you can verify. A simulated job title or roleplay background is not listed as employment experience.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="relative overflow-hidden py-24 sm:py-32">
+      <div class="absolute left-1/2 top-0 h-80 w-[650px] -translate-x-1/2 rounded-full bg-indigo-400/[0.07] blur-[120px]"></div>
+      <div class="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
+        <div class="reveal"><p class="eyebrow text-[11px] text-accent">04 / Contact</p><h2 class="mt-5 text-4xl font-semibold tracking-[-.05em] text-white sm:text-5xl">Have a problem worth solving?</h2><p class="mx-auto mt-5 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base">I’m open to conversations about student collaborations, internships, and practical software projects. Send a message and tell me what you’re working on.</p></div>
+        <div class="reveal mx-auto mt-10 max-w-2xl rounded-3xl border border-white/10 bg-[#0c111c]/90 p-5 text-left shadow-2xl sm:p-8">
+          <form id="contactForm" novalidate>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div><label for="senderName" class="mb-2 block text-xs font-medium text-slate-300">Your name</label><input id="senderName" name="name" autocomplete="name" required maxlength="100" class="w-full rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-600 outline-none transition focus:border-accent/70" placeholder="Jane Smith"></div>
+              <div><label for="senderEmail" class="mb-2 block text-xs font-medium text-slate-300">Your email</label><input id="senderEmail" name="email" type="email" autocomplete="email" required maxlength="160" class="w-full rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-600 outline-none transition focus:border-accent/70" placeholder="jane@example.com"></div>
+            </div>
+            <div class="mt-5"><label for="senderSubject" class="mb-2 block text-xs font-medium text-slate-300">Subject</label><input id="senderSubject" name="subject" required maxlength="140" class="w-full rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-sm text-white placeholder:text-slate-600 outline-none transition focus:border-accent/70" placeholder="Project collaboration"></div>
+            <div class="mt-5"><label for="senderMessage" class="mb-2 block text-xs font-medium text-slate-300">Message</label><textarea id="senderMessage" name="message" rows="5" required maxlength="4000" class="w-full resize-y rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-sm leading-6 text-white placeholder:text-slate-600 outline-none transition focus:border-accent/70" placeholder="A little context about your message..."></textarea></div>
+            <div class="mt-5 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"><button type="submit" class="btn-primary inline-flex items-center justify-center rounded-full px-6 py-3 text-xs font-semibold">Prepare email <span aria-hidden="true" class="ml-2">↗</span></button><p class="text-[10px] leading-5 text-slate-600">Opens your default email app. No message is stored by this page.</p></div>
+            <p id="formStatus" role="status" aria-live="polite" class="mt-4 hidden rounded-lg border border-line bg-white/[0.03] px-3 py-2 text-xs leading-5 text-slate-300"></p>
+          </form>
+        </div>
+        <div class="reveal mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-slate-500">
+          <span>Email: <strong class="font-medium text-slate-300">[INSERT_EMAIL]</strong></span>
+          <span class="hidden h-1 w-1 rounded-full bg-slate-700 sm:block"></span>
+          <span>GitHub: <strong class="font-medium text-slate-300">[INSERT_GITHUB_URL]</strong></span>
+          <span class="hidden h-1 w-1 rounded-full bg-slate-700 sm:block"></span>
+          <span>LinkedIn: <strong class="font-medium text-slate-300">[INSERT_LINKEDIN_URL]</strong></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/[0.06] py-7">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 text-center sm:flex-row sm:px-8 sm:text-left lg:px-10">
+      <a href="#home" class="text-xs font-semibold tracking-tight text-slate-300">Royvil Domingo<span class="text-accent">.</span></a>
+      <p class="text-[10px] text-slate-600">Designed and built with HTML, Tailwind CSS, and vanilla JavaScript.</p>
+      <a href="#home" class="text-[10px] text-slate-500 transition hover:text-white">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- Case-study modal -->
+  <div id="caseModal" class="modal-backdrop fixed inset-0 z-[70] hidden items-center justify-center overflow-y-auto p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalSummary">
+    <div class="modal-panel my-auto w-full max-w-2xl rounded-3xl border border-white/10 bg-[#0d121d] shadow-2xl">
+      <div class="flex items-start justify-between gap-5 border-b border-white/[0.07] p-6 sm:p-8"><div><p id="modalEyebrow" class="eyebrow text-[9px] text-accent">CASE STUDY</p><h2 id="modalTitle" class="mt-3 text-2xl font-semibold tracking-tight text-white">Project title</h2></div><button id="modalClose" class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line text-slate-400 transition hover:border-slate-500 hover:text-white" aria-label="Close case study"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke-linecap="round"/></svg></button></div>
+      <div class="space-y-6 p-6 sm:p-8"><p id="modalSummary" class="text-sm leading-7 text-slate-400"></p><div><h3 class="text-xs font-semibold uppercase tracking-wider text-slate-200">Problem & approach</h3><p id="modalProblem" class="mt-2 text-sm leading-7 text-slate-400"></p></div><div><h3 class="text-xs font-semibold uppercase tracking-wider text-slate-200">Architecture / features</h3><ul id="modalFeatures" class="mt-3 grid gap-2 sm:grid-cols-2"></ul></div><div><h3 class="text-xs font-semibold uppercase tracking-wider text-slate-200">Technology</h3><p id="modalStack" class="mt-2 text-sm leading-7 text-slate-400"></p></div><div class="rounded-xl border border-amber-200/10 bg-amber-200/[0.035] p-4"><p class="text-xs leading-6 text-amber-100/75">Repository and live-demo details have not been provided yet. Replace the placeholders in the project card or add your verified links before publishing.</p></div><div class="flex flex-wrap gap-3"><span id="modalGithub" class="rounded-full border border-line px-4 py-2 text-[10px] text-slate-500">GitHub: [INSERT_GITHUB_URL]</span><span id="modalDemo" class="rounded-full border border-line px-4 py-2 text-[10px] text-slate-500">Live demo: [INSERT_LIVE_DEMO_URL]</span></div></div>
+    </div>
+  </div>
+
+  <script>
+    // ================================================================
+    // PERSONALIZE THESE VALUES BEFORE DEPLOYING
+    // ================================================================
+    const CONTACT_EMAIL = '[INSERT_EMAIL]';
+    // Add real project URLs to the relevant project cards after publishing.
+
+    const caseStudies = {
+      dialysis: {
+        eyebrow: 'FULL-STACK WEB APPLICATION · IN DEVELOPMENT',
+        title: 'Dialysis Center Management System',
+        summary: 'A centralized management platform intended to make routine dialysis-center workflows easier to organize, track, and review.',
+        problem: 'Patient information, appointment schedules, treatment records, charges, and operational reporting need consistent relationships and controlled access. The system brings these functions into one Laravel application instead of treating them as disconnected tasks.',
+        features: [
+          'Patient records and patient lookup',
+          'Appointment scheduling and management',
+          'Treatment records linked to patients',
+          'Charges and billing records',
+          'Reports and dashboard summaries',
+          'Notifications and activity logging',
+          'Role-based access and user management',
+          'FAQ-first chatbot with AI fallback via OpenRouter'
+        ],
+        stack: 'Laravel 12, PHP, MySQL / MariaDB, Blade, JavaScript, CSS, Vite. The application follows an MVC structure with dedicated models and controllers for its main modules.'
+      },
+      borrow: {
+        eyebrow: 'PYTHON WEB APPLICATION · ACADEMIC BUILD',
+        title: 'Flask Library / Equipment Borrowing System',
+        summary: 'A borrower-oriented application concept for tracking equipment, handling borrow requests, and controlling approval and availability.',
+        problem: 'Equipment borrowing needs a reliable way to identify borrowers, show available quantities, and prevent requests from being treated as approved before an administrator reviews them. The project models those steps as a simple web workflow.',
+        features: [
+          'Borrower registration and login',
+          'Equipment catalog and quantity tracking',
+          'Borrowing request records',
+          'Administrator approval workflow',
+          'Quantity-aware borrowing rules',
+          'Separate borrower-facing experience'
+        ],
+        stack: 'Python, Flask, HTML, CSS, SQL, and SQLite. The remembered project structure includes equipment, borrowers, and borrowings data.'
+      }
+    };
+
+    // Mobile navigation
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuToggle.addEventListener('click', () => {
+      const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+      menuToggle.setAttribute('aria-expanded', String(!isOpen));
+      menuToggle.setAttribute('aria-label', isOpen ? 'Open navigation menu' : 'Close navigation menu');
+      mobileMenu.classList.toggle('hidden', isOpen);
+    });
+    document.querySelectorAll('.mobile-nav-link').forEach(link => link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Open navigation menu');
+    }));
+
+    // Project filters
+    const filterButtons = [...document.querySelectorAll('[data-filter]')];
+    const projectCards = [...document.querySelectorAll('.project-card')];
+    const noProjects = document.getElementById('noProjects');
+    filterButtons.forEach(button => button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+      filterButtons.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+      let visibleCount = 0;
+      projectCards.forEach(card => {
+        const visible = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !visible);
+        if (visible) visibleCount++;
+      });
+      noProjects.classList.toggle('hidden', visibleCount > 0);
+    }));
+
+    // Case-study modal
+    const modal = document.getElementById('caseModal');
+    const modalClose = document.getElementById('modalClose');
+    let lastFocusedElement = null;
+    function openCaseStudy(key) {
+      const data = caseStudies[key];
+      if (!data) return;
+      lastFocusedElement = document.activeElement;
+      document.getElementById('modalEyebrow').textContent = data.eyebrow;
+      document.getElementById('modalTitle').textContent = data.title;
+      document.getElementById('modalSummary').textContent = data.summary;
+      document.getElementById('modalProblem').textContent = data.problem;
+      document.getElementById('modalStack').textContent = data.stack;
+      const features = document.getElementById('modalFeatures');
+      features.replaceChildren();
+      data.features.forEach(feature => {
+        const item = document.createElement('li');
+        item.className = 'flex items-start gap-2 rounded-lg border border-line bg-white/[0.02] px-3 py-2 text-xs leading-5 text-slate-400';
+        const marker = document.createElement('span');
+        marker.className = 'mt-1 text-mint';
+        marker.textContent = '↗';
+        const label = document.createElement('span');
+        label.textContent = feature;
+        item.append(marker, label);
+        features.append(item);
+      });
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      modalClose.focus();
+    }
+    function closeCaseStudy() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+      if (lastFocusedElement) lastFocusedElement.focus();
+    }
+    document.querySelectorAll('.case-open').forEach(button => button.addEventListener('click', () => openCaseStudy(button.dataset.case)));
+    modalClose.addEventListener('click', closeCaseStudy);
+    modal.addEventListener('click', event => { if (event.target === modal) closeCaseStudy(); });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && !modal.classList.contains('hidden')) closeCaseStudy();
+      if (event.key === 'Tab' && !modal.classList.contains('hidden')) {
+        const focusable = [...modal.querySelectorAll('button, a, input, textarea, [tabindex]:not([tabindex="-1"])')].filter(el => !el.disabled);
+        if (!focusable.length) return;
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
+    });
+
+    // Contact form: validates and opens the user's email application.
+    const contactForm = document.getElementById('contactForm');
+    const formStatus = document.getElementById('formStatus');
+    contactForm.addEventListener('submit', event => {
+      event.preventDefault();
+      formStatus.classList.remove('hidden');
+      if (!contactForm.reportValidity()) return;
+      if (!CONTACT_EMAIL || CONTACT_EMAIL.includes('INSERT_')) {
+        formStatus.textContent = 'Set CONTACT_EMAIL near the top of the script to your real email address. The form will then prepare a message in the visitor’s default email app.';
+        formStatus.classList.add('text-amber-200');
+        return;
+      }
+      const formData = new FormData(contactForm);
+      const name = String(formData.get('name') || '').trim();
+      const email = String(formData.get('email') || '').trim();
+      const subject = String(formData.get('subject') || '').trim();
+      const message = String(formData.get('message') || '').trim();
+      const body = `Name: ${name}\nEmail: ${email}\n\n${message}`;
+      const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      formStatus.classList.remove('text-amber-200');
+      formStatus.textContent = 'Your email application should open with the message prepared. Review it and send when ready.';
+      window.location.href = mailto;
+    });
+
+    // Scroll progress
+    const progress = document.getElementById('scrollProgress');
+    function updateProgress() {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const amount = scrollable > 0 ? window.scrollY / scrollable : 0;
+      progress.style.transform = `scaleX(${Math.min(1, Math.max(0, amount))})`;
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+
+    // Subtle reveal on scroll; content stays visible when reduced motion is requested.
+    const revealItems = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      revealItems.forEach(item => observer.observe(item));
+    } else {
+      revealItems.forEach(item => item.classList.add('is-visible'));
+    }
+  </script>
 </body>
 </html>
