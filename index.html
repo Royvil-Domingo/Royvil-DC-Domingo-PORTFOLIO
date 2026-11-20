@@ -7,6 +7,19 @@
   <meta name="description" content="Royvil Domingo — student developer building practical web systems, database-driven applications, and secure, maintainable software.">
   <title>Royvil Domingo — Developer Portfolio</title>
 
+  <!-- Apply a saved/system theme before first paint to prevent a theme flash. -->
+  <script>
+    (function () {
+      let theme;
+      try { theme = localStorage.getItem('portfolio-theme'); } catch (error) { theme = null; }
+      if (theme !== 'dark' && theme !== 'light') {
+        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+    }());
+  </script>
+
   <!-- Tailwind CSS CDN: suitable for a quick preview or static deployment. -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -36,21 +49,51 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b12;
+      --surface: #0d121d;
+      --surface-strong: #0b1018;
+      --text: #edf2fb;
+      --muted: #94a3b8;
+      --border: #202a3a;
+      --accent: #8b9cff;
+      --mint: #6ee7c4;
+      --gradient-text: linear-gradient(110deg, #f5f7ff 8%, #b9c4ff 52%, #82e8d0 100%);
+      --grid-color: rgba(148,163,184,.045);
+      --hero-glow: rgba(99,102,241,.105);
+      --hero-glow-secondary: rgba(52,211,153,.035);
+    }
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-strong: #eef3fa;
+      --text: #162033;
+      --muted: #526078;
+      --border: #d7dfeb;
+      --accent: #4f5fc7;
+      --mint: #167b68;
+      --gradient-text: linear-gradient(110deg, #242d52 6%, #4f5fc7 54%, #147d68 100%);
+      --grid-color: rgba(69,83,116,.075);
+      --hero-glow: rgba(99,102,241,.055);
+      --hero-glow-secondary: rgba(20,184,166,.025);
+    }
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-padding-top: 92px; }
     body {
       margin: 0;
-      background: #080b12;
-      color: #edf2fb;
+      background: var(--bg);
+      color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
     ::selection { background: rgba(139, 156, 255, .32); color: #fff; }
     .grid-bg {
-      background-image: linear-gradient(rgba(148,163,184,.045) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(148,163,184,.045) 1px, transparent 1px);
+      background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
+                        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
       background-size: 48px 48px;
       mask-image: linear-gradient(to bottom, black, transparent 88%);
       -webkit-mask-image: linear-gradient(to bottom, black, transparent 88%);
@@ -65,9 +108,10 @@
       content: ""; position: absolute; inset: 0; padding: 1px; border-radius: inherit;
       background: linear-gradient(135deg, rgba(139,156,255,.45), rgba(110,231,196,.12), rgba(148,163,184,.12));
       -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
       -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: -1;
     }
-    .text-gradient { background: linear-gradient(110deg, #f5f7ff 8%, #aab6ff 55%, #82e8d0 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .text-gradient { background: var(--gradient-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .eyebrow { font-family: 'DM Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
     .nav-link { color: #9aa8bd; transition: color .2s ease; }
     .nav-link:hover, .nav-link:focus-visible { color: #fff; }
@@ -95,6 +139,78 @@
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
       .reveal { opacity: 1; transform: none; }
     }
+
+    /* Light theme overrides: theme is user-selectable and stored locally */
+    :root[data-theme="light"] body { background:var(--bg) !important; color:var(--text) !important; }
+    :root[data-theme="light"] .glass { background:rgba(248,250,253,.88) !important; border-color:var(--border) !important; }
+    :root[data-theme="light"] .card { background:linear-gradient(145deg,#fff,#f8faff) !important; border-color:var(--border) !important; box-shadow:0 8px 24px rgba(30,45,75,.06); }
+    :root[data-theme="light"] .card:hover { box-shadow:0 16px 38px rgba(30,45,75,.12); border-color:#9aa9cf !important; }
+    :root[data-theme="light"] .text-white, :root[data-theme="light"] .text-slate-100, :root[data-theme="light"] .text-slate-200, :root[data-theme="light"] .text-slate-300 { color:#1b2639 !important; }
+    :root[data-theme="light"] .text-slate-400, :root[data-theme="light"] .text-slate-500 { color:#526078 !important; }
+    :root[data-theme="light"] .text-slate-600 { color:#647187 !important; }
+    :root[data-theme="light"] [class*="border-white/"] { border-color:var(--border) !important; }
+    :root[data-theme="light"] [class*="bg-white/"] { background-color:rgba(35,55,85,.035) !important; }
+    :root[data-theme="light"] .tag { border-color:#ccd6e6 !important; background:#eef3fa !important; color:#40506a !important; }
+    :root[data-theme="light"] .filter-btn { border-color:#cbd6e6 !important; color:#4e5d73 !important; background:rgba(255,255,255,.72) !important; }
+    :root[data-theme="light"] .filter-btn[aria-pressed="true"] { color:#263a78 !important; background:#dde5fb !important; border-color:#9daedc !important; }
+    :root[data-theme="light"] .nav-link { color:#526078 !important; }
+    :root[data-theme="light"] .nav-link:hover, :root[data-theme="light"] .nav-link:focus-visible { color:#172033 !important; }
+    :root[data-theme="light"] .btn-secondary { color:#26354f !important; border-color:#bcc8dc !important; background:#fff !important; }
+    :root[data-theme="light"] .btn-secondary:hover { border-color:#697ac0 !important; background:#edf1ff !important; }
+    :root[data-theme="light"] .btn-primary { background:#3f52a8 !important; color:#fff !important; }
+    :root[data-theme="light"] .btn-primary:hover { background:#344792 !important; box-shadow:0 10px 28px rgba(79,95,199,.18) !important; }
+    :root[data-theme="light"] .modal-panel { background:#fff !important; border-color:var(--border) !important; }
+    :root[data-theme="light"] .modal-backdrop { background:rgba(26,36,56,.42) !important; }
+    :root[data-theme="light"] input, :root[data-theme="light"] textarea { color:#162033 !important; background:#fff !important; border-color:#bfcad9 !important; }
+    :root[data-theme="light"] input::placeholder, :root[data-theme="light"] textarea::placeholder { color:#728096 !important; opacity:1; }
+    :root[data-theme="light"] .text-accent { color:#4f5fc7 !important; }
+    :root[data-theme="light"] .text-mint { color:#167b68 !important; }
+    :root[data-theme="light"] .text-indigo-200 { color:#34458f !important; }
+    :root[data-theme="light"] .text-emerald-200 { color:#116b5b !important; }
+    :root[data-theme="light"] .text-violet-200 { color:#6250a7 !important; }
+    :root[data-theme="light"] .text-amber-200 { color:#8a6113 !important; }
+    :root[data-theme="light"] .text-sky-200 { color:#286d91 !important; }
+    :root[data-theme="light"] .text-rose-200 { color:#9b3f51 !important; }
+    :root[data-theme="light"] .text-fuchsia-200 { color:#7a477e !important; }
+    :root[data-theme="light"] .hero-glow-primary { background:var(--hero-glow) !important; }
+    :root[data-theme="light"] .hero-glow-secondary { background:var(--hero-glow-secondary) !important; }
+    :root[data-theme="light"] .hero-panel-glow { background:rgba(99,102,241,.025) !important; }
+    :root[data-theme="light"] .contact-glow { background:rgba(99,102,241,.035) !important; }
+    :root[data-theme="light"] .architecture-panel { background:rgba(255,255,255,.96) !important; border-color:#d7dfeb !important; box-shadow:0 18px 50px rgba(30,45,75,.10) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="border-slate-"] { border-color:#d7dfeb !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-indigo-"] { background-color:rgba(79,95,199,.055) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-emerald-"] { background-color:rgba(22,123,104,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-rose-"] { background-color:rgba(154,27,36,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-amber-"] { background-color:rgba(138,97,17,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-sky-"] { background-color:rgba(40,109,145,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-fuchsia-"] { background-color:rgba(122,71,126,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-violet-"] { background-color:rgba(98,80,167,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-teal-"] { background-color:rgba(13,148,136,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-lime-"] { background-color:rgba(22,163,74,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-green-"] { background-color:rgba(6,182,95,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-neutral-"] { background-color:rgba(156,163,175,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-black-"] { background-color:rgba(0,0,0,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-white-"] { background-color:rgba(255,255,255,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="bg-opacity-"] { background-color:rgba(255,255,255,.045) !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-slate-"] { color:#1b2639 !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-indigo-"] { color:#4f5fc7 !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-emerald-"] { color:#167b68 !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-rose-"] { color:#9b3f51 !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-amber-"] { color:#8a6113 !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-sky-"] { color:#286d91 !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-fuchsia-"] { color:#7a477e !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-violet-"] { color:#6250a7 !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-teal-"] { color:#0dbd8b !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-lime-"] { color:#22a34a !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-green-"] { color:#06b65f !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-neutral-"] { color:#1f2937 !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-black-"] { color:#000 !important; }
+    :root[data-theme="light"] .architecture-panel [class*="text-white-"] { color:#fff !important; }
+    .hero-glow-primary { background: rgba(99,102,241,.105); }
+    .hero-glow-secondary { background: rgba(52,211,153,.035); }
+    .hero-panel-glow { background: rgba(99,102,241,.06); }
+    .contact-glow { background: rgba(99,102,241,.07); }
+    .architecture-panel { background: rgba(11,16,26,.90); }
   </style>
 </head>
 <body class="noise overflow-x-hidden">
@@ -104,15 +220,15 @@
   <!-- Background treatment -->
   <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
     <div class="grid-bg absolute inset-x-0 top-0 h-[900px]"></div>
-    <div class="absolute -top-48 left-1/2 h-[540px] w-[780px] -translate-x-1/2 rounded-full bg-indigo-500/[0.09] blur-[130px]"></div>
-    <div class="absolute right-[-12rem] top-[42rem] h-[420px] w-[420px] rounded-full bg-emerald-400/[0.035] blur-[120px]"></div>
+    <div class="hero-glow-primary absolute -top-48 left-1/2 h-[540px] w-[780px] -translate-x-1/2 rounded-full blur-[130px]"></div>
+    <div class="hero-glow-secondary absolute right-[-12rem] top-[42rem] h-[420px] w-[420px] rounded-full blur-[120px]"></div>
   </div>
 
   <!-- Navigation -->
   <header class="sticky top-0 z-40 border-b border-white/[0.06] glass">
     <nav aria-label="Main navigation" class="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">
       <a href="#home" class="group flex items-center gap-3" aria-label="Royvil Domingo home">
-        <span class="grid h-9 w-9 place-items-center rounded-xl border border-indigo-300/20 bg-indigo-300/10 font-semibold text-indigo-100">RD</span>
+        <span class="grid h-9 w-9 place-items-center rounded-xl border border-indigo-300/20 bg-indigo-300/10 font-semibold text-indigo-100"><img src="profile.png" alt="RD"></span>
         <span class="text-sm font-semibold tracking-tight text-slate-100">Royvil Domingo<span class="text-accent">.</span></span>
       </a>
       <div class="hidden items-center gap-8 text-[13px] font-medium md:flex">
@@ -120,6 +236,7 @@
         <a class="nav-link" href="#projects">Projects</a>
         <a class="nav-link" href="#journey">Journey</a>
         <a class="nav-link" href="#contact">Contact</a>
+        <button id="themeToggle" type="button" class="theme-toggle rounded-full border border-line px-3 py-2 text-xs" aria-label="Switch to light mode" title="Toggle theme">☀️</button>
       </div>
       <a href="#contact" class="hidden rounded-full px-4 py-2 text-xs font-semibold btn-secondary md:inline-flex">Let’s connect <span aria-hidden="true" class="ml-2">↗</span></a>
       <button id="menuToggle" class="grid h-10 w-10 place-items-center rounded-lg border border-line text-slate-200 md:hidden" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -132,6 +249,7 @@
         <a class="nav-link mobile-nav-link" href="#projects">Projects</a>
         <a class="nav-link mobile-nav-link" href="#journey">Journey</a>
         <a class="nav-link mobile-nav-link" href="#contact">Contact</a>
+        <button id="themeToggleMobile" type="button" class="theme-toggle self-start rounded-full border border-line px-3 py-2 text-xs" aria-label="Switch to light mode" title="Toggle theme">☀️ Toggle theme</button>
       </div>
     </div>
   </header>
@@ -166,7 +284,7 @@
         <!-- Decorative architecture panel -->
         <div class="relative mx-auto w-full max-w-[430px] lg:ml-auto">
           <div class="absolute -inset-8 rounded-[2rem] bg-indigo-400/[0.06] blur-3xl"></div>
-          <div class="border-gradient relative rounded-3xl border border-white/10 bg-[#0b101a]/90 p-5 shadow-glow sm:p-6">
+          <div class="border-gradient relative rounded-3xl border border-white/10 bg-[#0b101a]/90 p-5 shadow-glow sm:p-6 architecture-panel">
             <div class="flex items-center justify-between border-b border-white/[0.07] pb-4">
               <div class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-rose-400/80"></span><span class="h-2 w-2 rounded-full bg-amber-300/80"></span><span class="h-2 w-2 rounded-full bg-emerald-300/80"></span></div>
               <span class="eyebrow text-[9px] text-slate-500">system.map</span>
@@ -253,7 +371,11 @@
           <div class="flex flex-wrap gap-2" role="group" aria-label="Filter projects">
             <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="all" aria-pressed="true">All work</button>
             <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="web" aria-pressed="false">Web apps</button>
+            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="code" aria-pressed="false">Algorithms</button>
             <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="research" aria-pressed="false">Research</button>
+            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="creative" aria-pressed="false">Creative</button>
+            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="hardware" aria-pressed="false">Hardware</button>
+            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="database" aria-pressed="false">Database design</button>
           </div>
         </div>
 
@@ -310,12 +432,29 @@
                 <h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Technology and Academic Performance Study</h3>
                 <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-400">A school research project examining the impact of technology on the academic performance of aspiring engineering students at Saint John School, Makapilapil, San Ildefonso, Bulacan. The working study involved Grade 12 students and survey-based data collection.</p>
                 <div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Research methods</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Google Forms</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Descriptive statistics</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Statistical testing</span></div>
-                <div class="mt-7 border-t border-white/[0.07] pt-5"><p class="text-xs leading-6 text-slate-500">Research scope and results should be updated to match the final submitted paper before publication.</p></div>
+                <div class="mt-7 border-t border-white/[0.07] pt-5"><p class="text-xs leading-6 text-slate-500">Research scope and results should be updated to match the final submitted paper before publication.</p><button class="case-open mt-3 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="study">Explore case study <span aria-hidden="true">↗</span></button></div>
               </div>
             </div>
           </article>
         </div>
-        <p id="noProjects" class="mt-8 hidden text-center text-sm text-slate-500">No projects in this category yet.</p>
+
+          <!-- Additional projects: based on coursework and projects discussed -->
+          <article class="project-card card reveal group overflow-hidden rounded-3xl" data-category="web">
+            <div class="relative min-h-[220px] border-b border-line bg-[#111a26] p-7 sm:p-8"><div class="absolute -right-8 -top-10 h-48 w-48 rounded-full bg-amber-300/[0.08] blur-3xl"></div><div class="relative rounded-xl border border-line bg-[#0b1018] p-5"><div class="flex items-center justify-between text-xs text-slate-400"><span>VHK Construction Supply</span><span>Inventory / Cash flow</span></div><div class="mt-5 grid grid-cols-3 gap-2"><div class="h-14 rounded-lg border border-line bg-white/[0.03] p-2"><div class="h-1.5 w-8 bg-amber-300/50"></div><div class="mt-3 h-2 w-10 bg-slate-600/60"></div></div><div class="h-14 rounded-lg border border-line bg-white/[0.03] p-2"><div class="h-1.5 w-8 bg-emerald-300/50"></div><div class="mt-3 h-2 w-10 bg-slate-600/60"></div></div><div class="h-14 rounded-lg border border-line bg-white/[0.03] p-2"><div class="h-1.5 w-8 bg-sky-300/50"></div><div class="mt-3 h-2 w-10 bg-slate-600/60"></div></div></div><div class="mt-3 h-12 rounded-lg border border-line bg-gradient-to-r from-amber-300/[0.07] to-transparent"></div></div><span class="absolute bottom-5 right-6 eyebrow text-[9px] text-slate-600">03 — BUSINESS SYSTEM</span></div>
+            <div class="p-6 sm:p-8"><div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-amber-300/20 bg-amber-300/[0.07] px-2.5 py-1 text-[10px] font-medium text-amber-200">Group project</span><span class="text-[10px] text-slate-600">IT225</span></div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">VHK Construction Supply: Inventory, Sales & Cash Flow</h3><p class="mt-3 text-sm leading-7 text-slate-400">A plain-PHP system concept for a construction supply store to manage products, inventory, sales, and cash-flow records.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">PHP</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">MySQL</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">HTML</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">CSS</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">JavaScript</span></div><div class="mt-7 flex items-center justify-between border-t border-white/[0.07] pt-5"><button class="case-open inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="vhk">Explore case study <span aria-hidden="true">↗</span></button><span class="text-[10px] text-slate-600">Group of five</span></div></div>
+          </article>
+          <article class="project-card card reveal group overflow-hidden rounded-3xl" data-category="code">
+            <div class="relative min-h-[220px] border-b border-line bg-[#111624] p-7 sm:p-8"><div class="absolute left-0 top-0 h-full w-full bg-gradient-to-br from-indigo-400/[0.06] to-transparent"></div><div class="relative rounded-xl border border-line bg-[#0b1018] p-5 font-mono text-xs text-slate-400"><div class="text-indigo-200">Process Scheduler / Simulation</div><div class="mt-4 grid grid-cols-4 gap-1"><div class="rounded bg-indigo-300/20 p-2 text-center">P1</div><div class="rounded bg-emerald-300/20 p-2 text-center">P2</div><div class="rounded bg-sky-300/20 p-2 text-center">P3</div><div class="rounded bg-amber-300/20 p-2 text-center">P4</div></div><div class="mt-3 flex justify-between text-[10px]"><span>0</span><span>4</span><span>7</span><span>11</span><span>15</span></div></div><span class="absolute bottom-5 right-6 eyebrow text-[9px] text-slate-600">04 — ALGORITHM SIMULATORS</span></div>
+            <div class="p-6 sm:p-8"><div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-indigo-300/20 bg-indigo-300/[0.07] px-2.5 py-1 text-[10px] font-medium text-indigo-200">Programming coursework</span><span class="text-[10px] text-slate-600">Platform Technologies</span></div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Memory & CPU Scheduling Simulators</h3><p class="mt-3 text-sm leading-7 text-slate-400">Algorithm exercises implementing memory allocation and CPU scheduling, with process timelines and Gantt chart-style output.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Python</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">C++</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Java</span></div><div class="mt-7 flex items-center justify-between border-t border-white/[0.07] pt-5"><button class="case-open inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="scheduling">Explore case study <span aria-hidden="true">↗</span></button><span class="text-[10px] text-slate-600">Algorithm practice</span></div></div>
+          </article>
+
+          <article class="project-card card reveal overflow-hidden rounded-3xl" data-category="creative"><div class="p-6 sm:p-8"><div class="eyebrow text-[10px] text-mint">SCRIPTWRITING</div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Huwag Kang Matakot & Hilom ng Lahi</h3><p class="mt-3 text-sm leading-7 text-slate-400">Two original film scripts for a themed contest, including a drama about a teacher in a conflict-affected area and a folk story centered on Babaylan lineage.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Screenwriting</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Story development</span></div><button class="case-open mt-7 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="scripts">Explore case study ↗</button></div></article>
+          <article class="project-card card reveal overflow-hidden rounded-3xl" data-category="creative"><div class="p-6 sm:p-8"><div class="eyebrow text-[10px] text-accent">MEDIA PRODUCTION</div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Institute of Computer Studies Promotional Video</h3><p class="mt-3 text-sm leading-7 text-slate-400">A group promo video project for ICS at BASC involving voice-over writing, shot planning, and production planning around available resources.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Scriptwriting</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Video planning</span></div><button class="case-open mt-7 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="promo">Explore case study ↗</button></div></article>
+          <article class="project-card card reveal overflow-hidden rounded-3xl" data-category="web"><div class="p-6 sm:p-8"><div class="eyebrow text-[10px] text-accent">WEB DEVELOPMENT EXERCISE</div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Student Records CRUD</h3><p class="mt-3 text-sm leading-7 text-slate-400">PHP and MySQL practice implementing CRUD operations and debugging record updates, form methods, and missing input names.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">PHP</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">MySQL</span></div><button class="case-open mt-7 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="crud">Explore case study ↗</button></div></article>
+          <article class="project-card card reveal overflow-hidden rounded-3xl" data-category="hardware"><div class="p-6 sm:p-8"><div class="eyebrow text-[10px] text-mint">DIGITAL LOGIC / HARDWARE</div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Simple Logic Probe (IT 312)</h3><p class="mt-3 text-sm leading-7 text-slate-400">A breadboard circuit designed to indicate HIGH and LOW digital signal states using an inverter, transistor circuitry, and LEDs.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">74HC04</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">2N3904</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">LEDs</span></div><button class="case-open mt-7 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="logic">Explore case study ↗</button></div></article>
+          <article class="project-card card reveal overflow-hidden rounded-3xl" data-category="database"><div class="p-6 sm:p-8"><div class="eyebrow text-[10px] text-accent">DATABASE DESIGN</div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">ER Diagrams & Database Normalization</h3><p class="mt-3 text-sm leading-7 text-slate-400">Database design exercises covering ERDs, weak entities, identifying relationships, and normalization through Third Normal Form (3NF).</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">ERD</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Normalization</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">3NF</span></div><button class="case-open mt-7 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="database">Explore case study ↗</button></div></article>
+        </div>
+        <p id="noProjects" class="hidden text-center text-sm text-slate-500 lg:col-span-2">No projects in this category yet.</p>
       </div>
     </section>
 
@@ -365,7 +504,7 @@
     </section>
   </main>
 
-  <footer class="border-t border-white/[0.06] py-7">
+   <footer class="border-t border-white/[0.06] py-7">
     <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 text-center sm:flex-row sm:px-8 sm:text-left lg:px-10">
       <a href="#home" class="text-xs font-semibold tracking-tight text-slate-300">Royvil Domingo<span class="text-accent">.</span></a>
       <p class="text-[10px] text-slate-600">Designed and built with HTML, Tailwind CSS, and vanilla JavaScript.</p>
@@ -420,8 +559,55 @@
           'Separate borrower-facing experience'
         ],
         stack: 'Python, Flask, HTML, CSS, SQL, and SQLite. The remembered project structure includes equipment, borrowers, and borrowings data.'
-      }
+      }      ,
+      vhk: { eyebrow:'PHP WEB APPLICATION · GROUP PROJECT', title:'VHK Construction Supply: Inventory, Sales & Cash Flow', summary:'Construction supply store workflow proposal and application project.', problem:'Products, inventory quantities, sales and cash-flow information need to be organized in one simple system. The project was selected after a proposal defense and developed under coursework rules that prohibited frameworks.', features:['Login and dashboard','Products and categories CRUD','Inventory tracking','Sales and cash-flow monitoring','Group project with five members'], stack:'Plain PHP, HTML, CSS, MySQL, and vanilla JavaScript. No PHP framework used.' },
+      scheduling: { eyebrow:'ALGORITHMS · PLATFORM TECHNOLOGIES', title:'Memory & CPU Scheduling Simulators', summary:'Programming exercises that implement core memory allocation and CPU scheduling algorithms.', problem:'The exercises help compare how allocation and scheduling approaches handle process workloads and how each algorithm changes execution order and waiting time.', features:['Best-fit and worst-fit memory allocation','SJF and SRTF','Round Robin','Multilevel Queue','Gantt chart-style timeline output','Disk scheduling exercises: SSTF, SCAN, C-SCAN, LOOK, and C-LOOK'], stack:'Python, C++, and Java. Disk scheduling was also practiced manually for comparison.' },
+      study: { eyebrow:'RESEARCH · SENIOR HIGH SCHOOL', title:'Technology & Academic Performance Study', summary:'Survey-based research examining technology use and academic performance among aspiring engineering students.', problem:'The research explored technology’s impact on academic performance among Grade 12 students at Saint John School, Makapilapil, San Ildefonso, Bulacan.', features:['Survey design using Google Forms','Data collection and descriptive statistics','Normality testing','Group comparisons and interpretation'], stack:'Google Forms and statistical analysis methods. Specific sample size and results should be confirmed before publishing.' },
+      scripts: { eyebrow:'CREATIVE WRITING · SSP101 FILM CONTEST', title:'Huwag Kang Matakot & Hilom ng Lahi', summary:'Two original film scripts written for a contest theme about leadership inspired by Babaylan traditions.', problem:'The scripts explored different story settings and cultural themes, including a teacher in a conflict-affected area and a folk drama about Babaylan lineage.', features:['Two original scripts','Expanded-cast version of Hilom ng Lahi','Story development and dialogue writing'], stack:'Original scriptwriting and story development.' },
+      promo: { eyebrow:'MEDIA PRODUCTION · GROUP PROJECT', title:'Institute of Computer Studies Promotional Video', summary:'A group promotional video concept for the Institute of Computer Studies at BASC.', problem:'The group planned a short promotional video while working with limited equipment and production resources.', features:['Voice-over script planning','Shot list and pacing plan','Production planning based on available resources'], stack:'Collaborative scriptwriting and video production planning.' },
+      crud: { eyebrow:'WEB DEVELOPMENT · COURSEWORK', title:'Student Records CRUD', summary:'PHP and MySQL exercises implementing create, read, update, and delete workflows.', problem:'Practice exercises focused on learning how form data reaches the backend and how database records are safely updated.', features:['Create and list student records','Update records using correct form methods','Debug missing WHERE clauses','Correct GET/POST and form name issues'], stack:'PHP and MySQL.' },
+      logic: { eyebrow:'HARDWARE · IT 312', title:'Simple Logic Probe', summary:'Breadboard circuit project designed to indicate digital HIGH and LOW signal states.', problem:'A simple circuit can provide a visual indication of the logic level present at a signal point for basic digital troubleshooting.', features:['Breadboard circuit','74HC04 inverter IC','2N3904 transistor circuitry','Red and green LED indicators'], stack:'74HC04, 2N3904 transistor(s), LEDs, breadboard, and basic digital logic.' },
+      database: { eyebrow:'DATABASE DESIGN · IT 224', title:'ER Diagrams & Database Normalization', summary:'Database design exercises exploring entity relationships and normalized relational structures.', problem:'Database structures need clear entities, keys, relationships, and constraints to reduce redundancy and support consistent data.', features:['Entity Relationship Diagrams','Weak entities','Identifying relationships','Normalization through 3NF'], stack:'Relational database design, ER modeling, normalization.' }
     };
+
+
+    // Theme mode: follow system by default, remember explicit user selection.
+    const themeRoot = document.documentElement;
+    const themeButtons = [document.getElementById('themeToggle'), document.getElementById('themeToggleMobile')].filter(Boolean);
+    const systemTheme = () => matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    function applyTheme(theme, save = false) {
+      themeRoot.dataset.theme = theme;
+      themeRoot.style.colorScheme = theme;
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+      if (themeColor) themeColor.setAttribute('content', theme === 'light' ? '#f4f7fb' : '#080b12');
+      themeButtons.forEach(button => {
+        const light = theme === 'light';
+        button.textContent = button.id === 'themeToggleMobile' ? (light ? '🌙 Dark mode' : '☀️ Light mode') : (light ? '🌙' : '☀️');
+        button.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode');
+        button.title = light ? 'Switch to dark mode' : 'Switch to light mode';
+      });
+      if (save) { try { localStorage.setItem('portfolio-theme', theme); } catch(e) {} }
+    }
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem('portfolio-theme'); } catch(e) {}
+    applyTheme(savedTheme || systemTheme());
+    themeButtons.forEach(button => button.addEventListener('click', () => {
+      const next = themeRoot.dataset.theme === 'dark' ? 'light' : 'dark';
+      applyTheme(next, true);
+      button.animate([{transform:'scale(.86) rotate(-12deg)'},{transform:'scale(1) rotate(0deg)'}], {duration:260, easing:'cubic-bezier(.2,.8,.2,1)'});
+    }));
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+      let saved = null; try { saved = localStorage.getItem('portfolio-theme'); } catch(e) {}
+      if (!saved) applyTheme(event.matches ? 'dark' : 'light');
+    });
+
+    // Button hover/press micro-interactions (CSS + pointer animation).
+    const motionOK = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (motionOK) {
+      document.querySelectorAll('button, .btn-primary, .btn-secondary').forEach(el => {
+        el.addEventListener('pointerdown', () => { el.animate([{transform:'scale(1)'},{transform:'scale(.96)'},{transform:'scale(1)'}], {duration:180, easing:'ease-out'}); });
+      });
+    }
 
     // Mobile navigation
     const menuToggle = document.getElementById('menuToggle');
@@ -449,7 +635,7 @@
       projectCards.forEach(card => {
         const visible = filter === 'all' || card.dataset.category === filter;
         card.classList.toggle('hidden', !visible);
-        if (visible) visibleCount++;
+        if (visible) { visibleCount++; if (!matchMedia('(prefers-reduced-motion: reduce)').matches) card.animate([{opacity:0, transform:'translateY(10px)'},{opacity:1,transform:'translateY(0)'}], {duration:240, easing:'ease-out'}); }
       });
       noProjects.classList.toggle('hidden', visibleCount > 0);
     }));

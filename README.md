@@ -1,31 +1,28 @@
 # Royvil Domingo — Developer Portfolio
 
-A responsive, dark-mode developer portfolio built with semantic HTML5, Tailwind CSS, and vanilla JavaScript. It presents selected software projects, technical skills, academic work, education details, and contact information in a single-page layout.
+A responsive developer portfolio (light and dark, following the visitor's system setting) built with plain HTML, CSS, and vanilla JavaScript. It shows my projects, skills, school background, and contact details on a single page.
 
 > **Before publishing:** Replace every personal-information placeholder and verify all education, certification, organization, and event details. Do not publish unverified credentials or experience as confirmed facts.
 
 ## Preview
 
-Open `index.html` in a modern web browser. An internet connection is required for the Tailwind CSS CDN and Google Fonts used by the page.
+Open `index.html` in a modern web browser. An internet connection is needed for Google Fonts and GSAP. If offline, system fonts take over and the page simply shows without animations.
 
 ## Features
 
-- Responsive layout for desktop, tablet, and mobile screens.
-- Dark interface with subtle visual effects and scroll animations.
-- About section and grouped technical skills.
-- Project filtering for web applications and research work.
-- Interactive project case-study dialogs.
-- Education, certification, and activity timeline.
-- Contact form with browser-side validation and `mailto:` message preparation.
-- Mobile navigation and reduced-motion support.
-- No application server, framework build process, or database required to preview the portfolio.
+- Responsive layout that works on phones, tablets, and desktops.
+- Light and dark themes with a toggle in the header. It follows the visitor's system setting at first and remembers their choice afterwards.
+- Projects are listed from one array in the script, so adding a project is a single entry.
+- Filters (web apps, algorithms, research and writing) and a details dialog for each project.
+- Contact form that validates in the browser and opens your email app with the message ready.
+- Page-load, scroll, and button animations powered by GSAP. They switch off automatically for visitors who prefer reduced motion.
+- No build step, framework, or server.
 
 ## Built With
 
-- **HTML5** for page structure and semantic content.
-- **Tailwind CSS** via CDN for utility-based styling.
-- **Vanilla JavaScript** for navigation, project filters, case-study dialogs, scroll effects, and contact-form behavior.
-- **Google Fonts** for Inter and DM Mono typography.
+- **HTML5, CSS3, and vanilla JavaScript.**
+- **GSAP 3.12.5 and ScrollTrigger** from cdnjs, for animation.
+- **Google Fonts**: Bricolage Grotesque and Instrument Sans.
 
 ## Featured Work
 
@@ -58,13 +55,26 @@ A borrower-oriented web application for managing equipment availability, borrowi
 
 **Technology:** Python, Flask, HTML, CSS, SQL, and SQLite.
 
-### 3. Technology and Academic Performance Study
+### 3. VHK Construction Supply: Inventory, Sales and Cash Flow System
+
+A group project (five members) for IT 225: a web system that monitors stock, sales, and cash flow for a construction supply business. Course rules ruled out frameworks, so it uses plain PHP, HTML, CSS, and MySQL, with vanilla JavaScript for form validation. Scope includes login, dashboard, and products and categories CRUD.
+
+### 4. Memory and CPU Scheduling Simulators
+
+Platform Technologies work in Python, C++, and Java: best-fit and worst-fit memory allocation, plus SJF, SRTF, Round Robin, and Multi-Level Queue scheduling with Gantt chart output.
+
+### 5. Technology and Academic Performance Study
 
 A school research project examining the impact of technology on the academic performance of aspiring engineering students at Saint John School, Makapilapil, San Ildefonso, Bulacan. The working study involved Grade 12 students and survey-based data collection.
 
 **Methods and tools discussed:** Google Forms, descriptive statistics, normality testing, and group-comparison procedures.
 
 > Update the research description, sample details, statistical methods, and findings to match the final submitted paper before publishing them.
+
+### Writing and video
+
+- Two scripts for the SSP101 film contest ("Lead like the Babaylans, Filipinas!"): *Huwag Kang Matakot* and *Hilom ng Lahi*.
+- A 2-minute promotional video for the Institute of Computer Studies at BASC (group project).
 
 ## Skills Presented
 
@@ -96,23 +106,17 @@ Then visit [http://localhost:8000](http://localhost:8000).
 
 ## Personalization Checklist
 
-Search `index.html` for the following placeholders and replace them with accurate details:
+Placeholders now live in three places: the `CONTACT_EMAIL`, `GITHUB_URL`, and `LINKEDIN_URL` constants at the top of the script, plus a few HTML comments in the School section. Links stay hidden until you replace the constants. Fill these in:
 
 | Placeholder | What to add |
 |---|---|
 | `[INSERT_EMAIL]` | Professional contact email |
 | `[INSERT_GITHUB_URL]` | GitHub profile URL |
 | `[INSERT_LINKEDIN_URL]` | LinkedIn profile URL |
-| `[INSERT_PROGRAM]` | Exact degree or academic program |
-| `[INSERT_START_YEAR–EXPECTED_GRADUATION]` | Actual education dates |
-| `[INSERT_CREDENTIAL_URL]` | Official certificate verification URL, if applicable |
-| `[INSERT_COMPLETION_DATE]` | Verified certificate completion date |
-| `[INSERT_ROLE_AND_DATES]` | Confirmed organization role and participation dates |
-| `[INSERT_EVENT_NAME]` | Exact hackathon name |
-| `[INSERT_YEAR_AND_RESULT]` | Verified event year, role, and result |
-| `[INSERT_LIVE_DEMO_URL]` | Public project demo URL, when available |
+| School years | Add your exact years where the TODO comment is in the School section |
+| Certificate, organization, hackathon | Currently commented out in the School section. Uncomment each only after you can verify it |
 
-Also update the project repository/demo placeholders inside the case-study dialogs when the corresponding links exist.
+To add repository or demo links, extend the project entries in the `P` array.
 
 ### Contact form configuration
 
@@ -146,8 +150,7 @@ Import the GitHub repository and configure it as a static site. Because the entr
 
 ## Notes and Limitations
 
-- Tailwind CSS is loaded from its CDN for easy setup. For a larger production site, consider a local Tailwind build so CSS can be optimized and pinned to a controlled version.
-- Google Fonts and the Tailwind CDN require internet access. System fonts remain as fallbacks if the font service is unavailable.
+- Google Fonts needs internet access. System fonts are the fallback.
 - The contact form uses `mailto:` and depends on the visitor having an email application configured. It does not store submissions or send mail directly from the website.
 - Project repository URLs, demo URLs, and personal profile links should be added only after they are verified and publicly accessible.
 - Confirm all school, certificate, organization, and event information before making the portfolio public.
