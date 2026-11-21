@@ -1,28 +1,28 @@
 # Royvil Domingo — Developer Portfolio
 
-A responsive developer portfolio (light and dark, following the visitor's system setting) built with plain HTML, CSS, and vanilla JavaScript. It shows my projects, skills, school background, and contact details on a single page.
+A responsive developer portfolio with light and dark themes, built with HTML, Tailwind CSS, vanilla JavaScript, and GSAP. It shows my projects, skills, school background, and contact details on a single page.
 
 > **Before publishing:** Replace every personal-information placeholder and verify all education, certification, organization, and event details. Do not publish unverified credentials or experience as confirmed facts.
 
 ## Preview
 
-Open `index.html` in a modern web browser. An internet connection is needed for Google Fonts and GSAP. If offline, system fonts take over and the page simply shows without animations.
+Open `index.html` in a modern web browser. An internet connection is needed for the Tailwind CDN, Google Fonts, and GSAP.
 
 ## Features
 
 - Responsive layout that works on phones, tablets, and desktops.
 - Light and dark themes with a toggle in the header. It follows the visitor's system setting at first and remembers their choice afterwards.
-- Projects are listed from one array in the script, so adding a project is a single entry.
-- Filters (web apps, algorithms, research and writing) and a details dialog for each project.
+- Project cards with filters (web apps, algorithms, research and writing) and a case-study dialog for each one.
 - Contact form that validates in the browser and opens your email app with the message ready.
 - Page-load, scroll, and button animations powered by GSAP. They switch off automatically for visitors who prefer reduced motion.
 - No build step, framework, or server.
 
 ## Built With
 
-- **HTML5, CSS3, and vanilla JavaScript.**
-- **GSAP 3.12.5 and ScrollTrigger** from cdnjs, for animation.
-- **Google Fonts**: Bricolage Grotesque and Instrument Sans.
+- **HTML5** and **vanilla JavaScript** for structure and behavior.
+- **Tailwind CSS** via CDN for styling, with CSS variables driving the light and dark themes.
+- **GSAP 3.12.5 and ScrollTrigger** from cdnjs for animation.
+- **Google Fonts**: Inter and DM Mono.
 
 ## Featured Work
 
@@ -106,17 +106,17 @@ Then visit [http://localhost:8000](http://localhost:8000).
 
 ## Personalization Checklist
 
-Placeholders now live in three places: the `CONTACT_EMAIL`, `GITHUB_URL`, and `LINKEDIN_URL` constants at the top of the script, plus a few HTML comments in the School section. Links stay hidden until you replace the constants. Fill these in:
+Placeholders now live in three places: the `CONTACT_EMAIL`, `GITHUB_URL`, and `LINKEDIN_URL` constants at the top of the script, plus a TODO comment in the Journey section. Links stay hidden until you replace the constants. Fill these in:
 
 | Placeholder | What to add |
 |---|---|
 | `[INSERT_EMAIL]` | Professional contact email |
 | `[INSERT_GITHUB_URL]` | GitHub profile URL |
 | `[INSERT_LINKEDIN_URL]` | LinkedIn profile URL |
-| School years | Add your exact years where the TODO comment is in the School section |
-| Certificate, organization, hackathon | Currently commented out in the School section. Uncomment each only after you can verify it |
+| School years | Add your exact years where the TODO comment is in the Journey section |
+| Certificate, organization, hackathon | Currently commented out in the Journey section. Uncomment each only after you can verify it |
 
-To add repository or demo links, extend the project entries in the `P` array.
+To add a project, copy a card in the Projects section and add a matching entry to the `caseStudies` object in the script.
 
 ### Contact form configuration
 
@@ -150,7 +150,8 @@ Import the GitHub repository and configure it as a static site. Because the entr
 
 ## Notes and Limitations
 
-- Google Fonts needs internet access. System fonts are the fallback.
+- Tailwind is loaded from its CDN for easy setup. For a larger production site, consider a local Tailwind build.
+- Google Fonts, Tailwind, and GSAP need internet access. Without GSAP the page still works, just without animations.
 - The contact form uses `mailto:` and depends on the visitor having an email application configured. It does not store submissions or send mail directly from the website.
 - Project repository URLs, demo URLs, and personal profile links should be added only after they are verified and publicly accessible.
 - Confirm all school, certificate, organization, and event information before making the portfolio public.
