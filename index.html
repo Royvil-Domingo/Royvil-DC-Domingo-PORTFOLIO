@@ -4,21 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080b12">
+  <script>(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme:light)").matches?"light":"dark";document.documentElement.dataset.theme=t})()</script>
   <meta name="description" content="Royvil Domingo — student developer building practical web systems, database-driven applications, and secure, maintainable software.">
+  <link rel="icon" type="image/x-icon" href="profile.png">
   <title>Royvil Domingo — Developer Portfolio</title>
-
-  <!-- Apply a saved/system theme before first paint to prevent a theme flash. -->
-  <script>
-    (function () {
-      let theme;
-      try { theme = localStorage.getItem('portfolio-theme'); } catch (error) { theme = null; }
-      if (theme !== 'dark' && theme !== 'light') {
-        theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-      document.documentElement.dataset.theme = theme;
-      document.documentElement.style.colorScheme = theme;
-    }());
-  </script>
 
   <!-- Tailwind CSS CDN: suitable for a quick preview or static deployment. -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -27,12 +16,14 @@
       theme: {
         extend: {
           colors: {
-            ink: '#080b12',
-            panel: '#0d121d',
-            line: '#202a3a',
+            ink: 'rgb(var(--ink) / <alpha-value>)',
+            panel: 'rgb(var(--panel) / <alpha-value>)',
+            line: 'rgb(var(--line) / <alpha-value>)',
             muted: '#94a3b8',
-            accent: '#8b9cff',
-            mint: '#6ee7c4'
+            accent: 'rgb(var(--acc) / <alpha-value>)',
+            mint: 'rgb(var(--mint) / <alpha-value>)',
+            white: 'rgb(var(--w) / <alpha-value>)',
+            slate: {100:'rgb(var(--s1) / <alpha-value>)',200:'rgb(var(--s2) / <alpha-value>)',300:'rgb(var(--s3) / <alpha-value>)',400:'rgb(var(--s4) / <alpha-value>)',500:'rgb(var(--s5) / <alpha-value>)',600:'rgb(var(--s6) / <alpha-value>)',700:'rgb(var(--s7) / <alpha-value>)'}
           },
           fontFamily: {
             sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif']
@@ -49,168 +40,58 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      color-scheme: dark;
-      --bg: #080b12;
-      --surface: #0d121d;
-      --surface-strong: #0b1018;
-      --text: #edf2fb;
-      --muted: #94a3b8;
-      --border: #202a3a;
-      --accent: #8b9cff;
-      --mint: #6ee7c4;
-      --gradient-text: linear-gradient(110deg, #f5f7ff 8%, #b9c4ff 52%, #82e8d0 100%);
-      --grid-color: rgba(148,163,184,.045);
-      --hero-glow: rgba(99,102,241,.105);
-      --hero-glow-secondary: rgba(52,211,153,.035);
-    }
-    :root[data-theme="light"] {
-      color-scheme: light;
-      --bg: #f4f7fb;
-      --surface: #ffffff;
-      --surface-strong: #eef3fa;
-      --text: #162033;
-      --muted: #526078;
-      --border: #d7dfeb;
-      --accent: #4f5fc7;
-      --mint: #167b68;
-      --gradient-text: linear-gradient(110deg, #242d52 6%, #4f5fc7 54%, #147d68 100%);
-      --grid-color: rgba(69,83,116,.075);
-      --hero-glow: rgba(99,102,241,.055);
-      --hero-glow-secondary: rgba(20,184,166,.025);
-    }
-    :root { color-scheme: dark; }
+    :root { --ink:8 11 18; --panel:13 18 29; --line:32 42 58; --acc:139 156 255; --mint:110 231 196; --w:255 255 255; --txt:237 242 251;
+      --s1:241 245 249; --s2:226 232 240; --s3:203 213 225; --s4:148 163 184; --s5:100 116 139; --s6:71 85 105; --s7:51 65 85;
+      --card1:16 23 37; --card2:10 14 23; --btnbg:223 229 255; --btnfg:11 16 32; --btnhov:255 255 255; color-scheme: dark; }
+    html[data-theme="light"] { --ink:238 242 238; --panel:249 251 248; --line:205 214 207; --acc:61 76 190; --mint:21 120 90; --w:21 33 27; --txt:21 33 27;
+      --s1:21 33 27; --s2:30 45 38; --s3:45 62 53; --s4:82 96 90; --s5:100 114 108; --s6:122 136 130; --s7:160 172 166;
+      --card1:252 253 251; --card2:244 247 243; --btnbg:21 33 27; --btnfg:238 242 238; --btnhov:40 58 48; color-scheme: light; }
+    html[data-theme="light"] [class*="bg-[#"] { background-color: rgb(var(--panel)); }
+    html[data-theme="light"] [class*="text-indigo-"] { color:#3a4ab8; } html[data-theme="light"] [class*="text-emerald-"] { color:#15795a; }
+    html[data-theme="light"] [class*="text-amber-"] { color:#92600a; } html[data-theme="light"] [class*="text-violet-"] { color:#6a3fc4; }
+    html[data-theme="light"] [class*="text-rose-"] { color:#be3355; } html[data-theme="light"] [class*="text-sky-"] { color:#0f6fa3; }
+    html[data-theme="light"] [class*="text-fuchsia-"] { color:#a21caf; }
+    .tt, .tt * { transition: background-color .35s, color .35s, border-color .35s !important; }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-padding-top: 92px; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-    ::selection { background: rgba(139, 156, 255, .32); color: #fff; }
-    .grid-bg {
-      background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
-                        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: linear-gradient(to bottom, black, transparent 88%);
-      -webkit-mask-image: linear-gradient(to bottom, black, transparent 88%);
-    }
-    .noise::after {
-      content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .025;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
-    }
-    .glass { background: rgba(13,18,29,.78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+    body { margin: 0; background: rgb(var(--ink)); color: rgb(var(--txt)); font-family: Inter, ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    ::selection { background: rgba(139, 156, 255, .32); color: inherit; }
+    .grid-bg { background-image: linear-gradient(rgba(148,163,184,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.045) 1px, transparent 1px); background-size: 48px 48px; mask-image: linear-gradient(to bottom, black, transparent 88%); -webkit-mask-image: linear-gradient(to bottom, black, transparent 88%); }
+    .noise::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E"); }
+    .glass { background: rgb(var(--panel) / .78); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
     .border-gradient { position: relative; isolation: isolate; }
-    .border-gradient::before {
-      content: ""; position: absolute; inset: 0; padding: 1px; border-radius: inherit;
-      background: linear-gradient(135deg, rgba(139,156,255,.45), rgba(110,231,196,.12), rgba(148,163,184,.12));
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: -1;
-    }
-    .text-gradient { background: var(--gradient-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .border-gradient::before { content: ""; position: absolute; inset: 0; padding: 1px; border-radius: inherit; background: linear-gradient(135deg, rgb(var(--acc) / .45), rgb(var(--mint) / .12), rgba(148,163,184,.12)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; z-index: -1; }
+    .text-gradient { background: linear-gradient(110deg, rgb(var(--w)) 8%, rgb(var(--acc)) 55%, rgb(var(--mint)) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .eyebrow { font-family: 'DM Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
-    .nav-link { color: #9aa8bd; transition: color .2s ease; }
-    .nav-link:hover, .nav-link:focus-visible { color: #fff; }
-    .btn-primary { background: #dfe5ff; color: #0b1020; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
-    .btn-primary:hover { transform: translateY(-2px); background: #fff; box-shadow: 0 10px 30px rgba(139,156,255,.17); }
-    .btn-secondary { border: 1px solid #344057; color: #dbe4f4; transition: all .2s ease; }
-    .btn-secondary:hover { border-color: #8394ff; background: rgba(139,156,255,.08); transform: translateY(-2px); }
-    .card { background: linear-gradient(145deg, rgba(16,23,37,.95), rgba(10,14,23,.97)); border: 1px solid #202a3a; transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
-    .card:hover { border-color: rgba(139,156,255,.48); transform: translateY(-4px); box-shadow: 0 18px 48px rgba(0,0,0,.22); }
-    .tag { border: 1px solid #29364b; background: rgba(148,163,184,.055); color: #bac7da; }
-    .filter-btn { border: 1px solid #263247; color: #9eacc2; transition: all .2s ease; }
-    .filter-btn[aria-pressed="true"] { border-color: rgba(139,156,255,.7); color: #e8ebff; background: rgba(139,156,255,.12); }
-    .filter-btn:hover { color: #fff; border-color: #6474a8; }
-    .timeline-dot { box-shadow: 0 0 0 5px rgba(139,156,255,.1); }
+    .nav-link { color: rgb(var(--s4)); transition: color .2s ease; }
+    .nav-link:hover, .nav-link:focus-visible { color: rgb(var(--w)); }
+    .btn-primary { background: rgb(var(--btnbg)); color: rgb(var(--btnfg)); transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .btn-primary:hover { transform: translateY(-2px); background: rgb(var(--btnhov)); box-shadow: 0 10px 30px rgb(var(--acc) / .17); }
+    .btn-secondary { border: 1px solid rgb(var(--s6)); color: rgb(var(--s2)); transition: all .2s ease; }
+    .btn-secondary:hover { border-color: rgb(var(--acc)); background: rgb(var(--acc) / .08); transform: translateY(-2px); }
+    .card { background: linear-gradient(145deg, rgb(var(--card1) / .95), rgb(var(--card2) / .97)); border: 1px solid rgb(var(--line)); transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
+    .card:hover { border-color: rgb(var(--acc) / .48); transform: translateY(-4px); box-shadow: 0 18px 48px rgba(0,0,0,.18); }
+    .tag { border: 1px solid rgb(var(--line)); background: rgba(148,163,184,.08); color: rgb(var(--s3)); }
+    .filter-btn { border: 1px solid rgb(var(--line)); color: rgb(var(--s4)); transition: all .2s ease; }
+    .filter-btn[aria-pressed="true"] { border-color: rgb(var(--acc) / .7); color: rgb(var(--s1)); background: rgb(var(--acc) / .12); }
+    .filter-btn:hover { color: rgb(var(--w)); border-color: rgb(var(--acc) / .6); }
+    .timeline-dot { box-shadow: 0 0 0 5px rgb(var(--acc) / .1); }
     .reveal { opacity: 0; transform: translateY(16px); transition: opacity .65s ease, transform .65s ease; }
     .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    .gsap-on .reveal { transition: none; }
+    .gsap-on .btn-primary, .gsap-on .btn-secondary, .gsap-on .filter-btn, .gsap-on .card { transition: color .2s, background-color .2s, border-color .25s, box-shadow .25s; }
     .modal-backdrop { background: rgba(2,5,10,.78); backdrop-filter: blur(10px); }
     .modal-panel { animation: modal-in .2s ease-out both; }
     @keyframes modal-in { from { opacity: 0; transform: translateY(12px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
     #scrollProgress { transform-origin: left; transform: scaleX(0); }
     .skip-link { position: absolute; top: -60px; left: 1rem; z-index: 100; padding: .75rem 1rem; background: #fff; color: #080b12; border-radius: .5rem; }
     .skip-link:focus { top: 1rem; }
-    :focus-visible { outline: 2px solid #aab6ff; outline-offset: 3px; }
+    :focus-visible { outline: 2px solid rgb(var(--acc)); outline-offset: 3px; }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
       .reveal { opacity: 1; transform: none; }
     }
-
-    /* Light theme overrides: theme is user-selectable and stored locally */
-    :root[data-theme="light"] body { background:var(--bg) !important; color:var(--text) !important; }
-    :root[data-theme="light"] .glass { background:rgba(248,250,253,.88) !important; border-color:var(--border) !important; }
-    :root[data-theme="light"] .card { background:linear-gradient(145deg,#fff,#f8faff) !important; border-color:var(--border) !important; box-shadow:0 8px 24px rgba(30,45,75,.06); }
-    :root[data-theme="light"] .card:hover { box-shadow:0 16px 38px rgba(30,45,75,.12); border-color:#9aa9cf !important; }
-    :root[data-theme="light"] .text-white, :root[data-theme="light"] .text-slate-100, :root[data-theme="light"] .text-slate-200, :root[data-theme="light"] .text-slate-300 { color:#1b2639 !important; }
-    :root[data-theme="light"] .text-slate-400, :root[data-theme="light"] .text-slate-500 { color:#526078 !important; }
-    :root[data-theme="light"] .text-slate-600 { color:#647187 !important; }
-    :root[data-theme="light"] [class*="border-white/"] { border-color:var(--border) !important; }
-    :root[data-theme="light"] [class*="bg-white/"] { background-color:rgba(35,55,85,.035) !important; }
-    :root[data-theme="light"] .tag { border-color:#ccd6e6 !important; background:#eef3fa !important; color:#40506a !important; }
-    :root[data-theme="light"] .filter-btn { border-color:#cbd6e6 !important; color:#4e5d73 !important; background:rgba(255,255,255,.72) !important; }
-    :root[data-theme="light"] .filter-btn[aria-pressed="true"] { color:#263a78 !important; background:#dde5fb !important; border-color:#9daedc !important; }
-    :root[data-theme="light"] .nav-link { color:#526078 !important; }
-    :root[data-theme="light"] .nav-link:hover, :root[data-theme="light"] .nav-link:focus-visible { color:#172033 !important; }
-    :root[data-theme="light"] .btn-secondary { color:#26354f !important; border-color:#bcc8dc !important; background:#fff !important; }
-    :root[data-theme="light"] .btn-secondary:hover { border-color:#697ac0 !important; background:#edf1ff !important; }
-    :root[data-theme="light"] .btn-primary { background:#3f52a8 !important; color:#fff !important; }
-    :root[data-theme="light"] .btn-primary:hover { background:#344792 !important; box-shadow:0 10px 28px rgba(79,95,199,.18) !important; }
-    :root[data-theme="light"] .modal-panel { background:#fff !important; border-color:var(--border) !important; }
-    :root[data-theme="light"] .modal-backdrop { background:rgba(26,36,56,.42) !important; }
-    :root[data-theme="light"] input, :root[data-theme="light"] textarea { color:#162033 !important; background:#fff !important; border-color:#bfcad9 !important; }
-    :root[data-theme="light"] input::placeholder, :root[data-theme="light"] textarea::placeholder { color:#728096 !important; opacity:1; }
-    :root[data-theme="light"] .text-accent { color:#4f5fc7 !important; }
-    :root[data-theme="light"] .text-mint { color:#167b68 !important; }
-    :root[data-theme="light"] .text-indigo-200 { color:#34458f !important; }
-    :root[data-theme="light"] .text-emerald-200 { color:#116b5b !important; }
-    :root[data-theme="light"] .text-violet-200 { color:#6250a7 !important; }
-    :root[data-theme="light"] .text-amber-200 { color:#8a6113 !important; }
-    :root[data-theme="light"] .text-sky-200 { color:#286d91 !important; }
-    :root[data-theme="light"] .text-rose-200 { color:#9b3f51 !important; }
-    :root[data-theme="light"] .text-fuchsia-200 { color:#7a477e !important; }
-    :root[data-theme="light"] .hero-glow-primary { background:var(--hero-glow) !important; }
-    :root[data-theme="light"] .hero-glow-secondary { background:var(--hero-glow-secondary) !important; }
-    :root[data-theme="light"] .hero-panel-glow { background:rgba(99,102,241,.025) !important; }
-    :root[data-theme="light"] .contact-glow { background:rgba(99,102,241,.035) !important; }
-    :root[data-theme="light"] .architecture-panel { background:rgba(255,255,255,.96) !important; border-color:#d7dfeb !important; box-shadow:0 18px 50px rgba(30,45,75,.10) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="border-slate-"] { border-color:#d7dfeb !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-indigo-"] { background-color:rgba(79,95,199,.055) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-emerald-"] { background-color:rgba(22,123,104,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-rose-"] { background-color:rgba(154,27,36,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-amber-"] { background-color:rgba(138,97,17,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-sky-"] { background-color:rgba(40,109,145,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-fuchsia-"] { background-color:rgba(122,71,126,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-violet-"] { background-color:rgba(98,80,167,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-teal-"] { background-color:rgba(13,148,136,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-lime-"] { background-color:rgba(22,163,74,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-green-"] { background-color:rgba(6,182,95,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-neutral-"] { background-color:rgba(156,163,175,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-black-"] { background-color:rgba(0,0,0,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-white-"] { background-color:rgba(255,255,255,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="bg-opacity-"] { background-color:rgba(255,255,255,.045) !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-slate-"] { color:#1b2639 !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-indigo-"] { color:#4f5fc7 !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-emerald-"] { color:#167b68 !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-rose-"] { color:#9b3f51 !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-amber-"] { color:#8a6113 !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-sky-"] { color:#286d91 !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-fuchsia-"] { color:#7a477e !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-violet-"] { color:#6250a7 !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-teal-"] { color:#0dbd8b !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-lime-"] { color:#22a34a !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-green-"] { color:#06b65f !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-neutral-"] { color:#1f2937 !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-black-"] { color:#000 !important; }
-    :root[data-theme="light"] .architecture-panel [class*="text-white-"] { color:#fff !important; }
-    .hero-glow-primary { background: rgba(99,102,241,.105); }
-    .hero-glow-secondary { background: rgba(52,211,153,.035); }
-    .hero-panel-glow { background: rgba(99,102,241,.06); }
-    .contact-glow { background: rgba(99,102,241,.07); }
-    .architecture-panel { background: rgba(11,16,26,.90); }
   </style>
 </head>
 <body class="noise overflow-x-hidden">
@@ -220,8 +101,8 @@
   <!-- Background treatment -->
   <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
     <div class="grid-bg absolute inset-x-0 top-0 h-[900px]"></div>
-    <div class="hero-glow-primary absolute -top-48 left-1/2 h-[540px] w-[780px] -translate-x-1/2 rounded-full blur-[130px]"></div>
-    <div class="hero-glow-secondary absolute right-[-12rem] top-[42rem] h-[420px] w-[420px] rounded-full blur-[120px]"></div>
+    <div class="absolute -top-48 left-1/2 h-[540px] w-[780px] -translate-x-1/2 rounded-full bg-indigo-500/[0.09] blur-[130px]"></div>
+    <div class="absolute right-[-12rem] top-[42rem] h-[420px] w-[420px] rounded-full bg-emerald-400/[0.035] blur-[120px]"></div>
   </div>
 
   <!-- Navigation -->
@@ -236,12 +117,13 @@
         <a class="nav-link" href="#projects">Projects</a>
         <a class="nav-link" href="#journey">Journey</a>
         <a class="nav-link" href="#contact">Contact</a>
-        <button id="themeToggle" type="button" class="theme-toggle rounded-full border border-line px-3 py-2 text-xs" aria-label="Switch to light mode" title="Toggle theme">☀️</button>
       </div>
+      <div class="flex items-center gap-3"><button id="themeToggle" type="button" class="grid h-9 w-9 place-items-center rounded-full border border-line text-slate-200"></button>
       <a href="#contact" class="hidden rounded-full px-4 py-2 text-xs font-semibold btn-secondary md:inline-flex">Let’s connect <span aria-hidden="true" class="ml-2">↗</span></a>
       <button id="menuToggle" class="grid h-10 w-10 place-items-center rounded-lg border border-line text-slate-200 md:hidden" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
         <svg id="menuIcon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
       </button>
+      </div>
     </nav>
     <div id="mobileMenu" class="hidden border-t border-white/[0.06] px-5 py-4 md:hidden">
       <div class="mx-auto flex max-w-7xl flex-col gap-4 text-sm">
@@ -249,7 +131,6 @@
         <a class="nav-link mobile-nav-link" href="#projects">Projects</a>
         <a class="nav-link mobile-nav-link" href="#journey">Journey</a>
         <a class="nav-link mobile-nav-link" href="#contact">Contact</a>
-        <button id="themeToggleMobile" type="button" class="theme-toggle self-start rounded-full border border-line px-3 py-2 text-xs" aria-label="Switch to light mode" title="Toggle theme">☀️ Toggle theme</button>
       </div>
     </div>
   </header>
@@ -261,14 +142,14 @@
         <div class="relative z-10">
           <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-emerald-300/20 bg-emerald-300/[0.06] px-3 py-1.5 text-xs text-emerald-200">
             <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-40"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-300"></span></span>
-            Student developer · Philippines
+            BSIT student · Bulacan, Philippines
           </div>
           <p class="eyebrow mb-5 text-[11px] text-accent">Full-stack development / systems thinking</p>
           <h1 class="max-w-3xl text-5xl font-semibold leading-[1.08] tracking-[-.055em] text-white sm:text-6xl lg:text-[4.65rem]">
             I build practical <span class="text-gradient">web systems</span> from interface to data layer.
           </h1>
           <p class="mt-7 max-w-2xl text-base leading-8 text-slate-400 sm:text-lg">
-            I’m Royvil Domingo, a student developer focused on turning real workflows into usable, database-driven applications. My work spans frontend experiences, backend logic, data management, and the systems fundamentals that keep software dependable.
+            I’m Royvil, a BSIT student at Bulacan Agricultural State College. Most of what I make starts with a real workflow that someone tracks on paper or in scattered files, and ends as a small database-driven app that keeps it straight.
           </p>
           <div class="mt-9 flex flex-col gap-3 sm:flex-row">
             <a href="#projects" class="btn-primary inline-flex items-center justify-center rounded-full px-6 py-3.5 text-sm font-semibold">Explore my work <span aria-hidden="true" class="ml-2">↗</span></a>
@@ -284,7 +165,7 @@
         <!-- Decorative architecture panel -->
         <div class="relative mx-auto w-full max-w-[430px] lg:ml-auto">
           <div class="absolute -inset-8 rounded-[2rem] bg-indigo-400/[0.06] blur-3xl"></div>
-          <div class="border-gradient relative rounded-3xl border border-white/10 bg-[#0b101a]/90 p-5 shadow-glow sm:p-6 architecture-panel">
+          <div class="border-gradient relative rounded-3xl border border-white/10 bg-[#0b101a]/90 p-5 shadow-glow sm:p-6">
             <div class="flex items-center justify-between border-b border-white/[0.07] pb-4">
               <div class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-rose-400/80"></span><span class="h-2 w-2 rounded-full bg-amber-300/80"></span><span class="h-2 w-2 rounded-full bg-emerald-300/80"></span></div>
               <span class="eyebrow text-[9px] text-slate-500">system.map</span>
@@ -318,15 +199,15 @@
             <p class="eyebrow text-[11px] text-accent">01 / About</p>
             <h2 class="mt-5 text-3xl font-semibold tracking-[-.04em] text-white sm:text-4xl">A systems mindset, with the user in view.</h2>
             <div class="mt-7 space-y-5 text-sm leading-7 text-slate-400">
-              <p>I’m a student developer building a foundation across application development, databases, networking, and security. I’m most interested in software that replaces scattered manual steps with clearer, more reliable workflows.</p>
-              <p>My current work includes a Laravel-based management platform and a Flask borrowing application. These projects have given me practical experience connecting user interfaces to server-side logic, designing relational data flows, and thinking through access, validation, and operational needs.</p>
+              <p>What keeps me interested is the moment a messy process turns into a clear set of tables, forms, and rules. I’ve built with plain PHP and MySQL, and with Laravel and Flask.</p>
+              <p>Right now I’m building a dialysis center management system in Laravel. I’ve also worked on group projects like an inventory and cash flow system for a construction supply store, and I write scripts and do research along the way.</p>
               <p>I approach development as more than writing code: understand the problem, model the information, build the flow, and make the result easier to use and maintain.</p>
             </div>
             <div class="mt-8 flex flex-wrap gap-2"><span class="tag rounded-full px-3 py-1.5 text-[11px]">Problem solving</span><span class="tag rounded-full px-3 py-1.5 text-[11px]">End-to-end execution</span><span class="tag rounded-full px-3 py-1.5 text-[11px]">Continuous learning</span></div>
           </div>
 
           <div class="reveal">
-            <div class="mb-5 flex items-end justify-between gap-4"><div><p class="eyebrow text-[11px] text-slate-500">Toolkit</p><h3 class="mt-2 text-xl font-semibold text-white">Skills & technologies</h3></div><span class="text-right text-[10px] text-slate-600">Based on tools and topics<br>discussed in our work</span></div>
+            <div class="mb-5 flex items-end justify-between gap-4"><div><p class="eyebrow text-[11px] text-slate-500">Toolkit</p><h3 class="mt-2 text-xl font-semibold text-white">Skills & technologies</h3></div><span class="text-right text-[10px] text-slate-600">From my coursework<br>and projects</span></div>
             <div class="grid gap-3 sm:grid-cols-2">
               <article class="card rounded-2xl p-5">
                 <div class="flex items-center gap-3"><span class="grid h-9 w-9 place-items-center rounded-xl bg-indigo-300/10 text-accent"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4M7 9h4m-4 3h8"/></svg></span><h4 class="text-sm font-semibold">Frontend</h4></div>
@@ -357,7 +238,7 @@
                 <p class="mt-4 text-xs leading-6 text-slate-400">C++, Python fundamentals, linked lists, queues, searching, sorting, and introductory digital-logic exercises</p>
               </article>
             </div>
-            <p class="mt-4 text-[11px] leading-5 text-slate-600">Skills reflect technologies and subjects discussed or used in coursework and projects; proficiency levels are not independently assessed.</p>
+            <p class="mt-4 text-[11px] leading-5 text-slate-600">Skills come from coursework and projects. Proficiency levels are not formally assessed.</p>
           </div>
         </div>
       </div>
@@ -367,15 +248,12 @@
     <section id="projects" class="py-24 sm:py-28">
       <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div class="reveal flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-          <div><p class="eyebrow text-[11px] text-accent">02 / Selected work</p><h2 class="mt-5 text-3xl font-semibold tracking-[-.04em] text-white sm:text-4xl">Projects built around real workflows.</h2><p class="mt-4 max-w-xl text-sm leading-7 text-slate-400">A closer look at the applications and research work I’ve discussed and developed.</p></div>
+          <div><p class="eyebrow text-[11px] text-accent">02 / Selected work</p><h2 class="mt-5 text-3xl font-semibold tracking-[-.04em] text-white sm:text-4xl">Projects built around real workflows.</h2><p class="mt-4 max-w-xl text-sm leading-7 text-slate-400">Web apps, algorithm exercises, research, and writing I’ve worked on.</p></div>
           <div class="flex flex-wrap gap-2" role="group" aria-label="Filter projects">
             <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="all" aria-pressed="true">All work</button>
             <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="web" aria-pressed="false">Web apps</button>
             <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="code" aria-pressed="false">Algorithms</button>
-            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="research" aria-pressed="false">Research</button>
-            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="creative" aria-pressed="false">Creative</button>
-            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="hardware" aria-pressed="false">Hardware</button>
-            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="database" aria-pressed="false">Database design</button>
+            <button class="filter-btn rounded-full px-4 py-2 text-xs font-medium" data-filter="research" aria-pressed="false">Research &amp; writing</button>
           </div>
         </div>
 
@@ -420,6 +298,43 @@
             </div>
           </article>
 
+
+          <article class="project-card card reveal group overflow-hidden rounded-3xl" data-category="web">
+            <div class="relative min-h-[220px] overflow-hidden border-b border-line bg-[#0b1421] p-6 sm:p-8">
+              <div class="absolute right-[-2rem] top-[-4rem] h-52 w-52 rounded-full bg-amber-400/[0.1] blur-3xl transition-transform duration-500 group-hover:scale-125"></div>
+              <div class="relative mx-auto max-w-sm rounded-xl border border-slate-700/70 bg-[#0b101a] p-4 shadow-2xl sm:p-5">
+                <div class="flex items-center justify-between border-b border-white/[0.07] pb-3"><span class="text-[10px] font-medium text-slate-300">VHK Supply · Overview</span><span class="text-[9px] text-slate-600">PLAIN PHP</span></div>
+                <div class="mt-4 space-y-2"><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-amber-300"></span><span class="text-[10px] text-slate-300">Login</span></div><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-amber-300"></span><span class="text-[10px] text-slate-300">Dashboard</span></div><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-amber-300"></span><span class="text-[10px] text-slate-300">Products and categories</span></div><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-amber-300"></span><span class="text-[10px] text-slate-300">Inventory, sales and cash flow</span></div></div>
+              </div>
+              <span class="absolute bottom-5 right-6 eyebrow text-[9px] text-slate-600">03 — INVENTORY SYSTEM</span>
+            </div>
+            <div class="p-6 sm:p-8">
+              <div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-amber-300/20 bg-amber-300/[0.07] px-2.5 py-1 text-[10px] font-medium text-amber-200">Group project</span><span class="text-[10px] text-slate-600">IT 225 midterm</span></div>
+              <h3 class="mt-4 text-xl font-semibold tracking-tight text-white">VHK Construction Supply: Inventory, Sales and Cash Flow</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-400">A web system that tracks stock, sales and cash flow for a construction supply business, built by a group of five with no frameworks.</p>
+              <div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">PHP</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">MySQL</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">HTML</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">CSS</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">JavaScript</span></div>
+              <div class="mt-7 flex items-center justify-between border-t border-white/[0.07] pt-5"><button class="case-open inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="vhk">Explore case study <span aria-hidden="true">↗</span></button><span class="text-[10px] text-slate-600">Group of five</span></div>
+            </div>
+          </article>
+
+          <article class="project-card card reveal group overflow-hidden rounded-3xl" data-category="code">
+            <div class="relative min-h-[220px] overflow-hidden border-b border-line bg-[#0b1421] p-6 sm:p-8">
+              <div class="absolute right-[-2rem] top-[-4rem] h-52 w-52 rounded-full bg-sky-400/[0.1] blur-3xl transition-transform duration-500 group-hover:scale-125"></div>
+              <div class="relative mx-auto max-w-sm rounded-xl border border-slate-700/70 bg-[#0b101a] p-4 shadow-2xl sm:p-5">
+                <div class="flex items-center justify-between border-b border-white/[0.07] pb-3"><span class="text-[10px] font-medium text-slate-300">Scheduler · Output</span><span class="text-[9px] text-slate-600">GANTT CHART</span></div>
+                <div class="mt-4 space-y-2"><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-sky-300"></span><span class="text-[10px] text-slate-300">Best-fit / worst-fit allocation</span></div><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-sky-300"></span><span class="text-[10px] text-slate-300">SJF, SRTF, Round Robin</span></div><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-sky-300"></span><span class="text-[10px] text-slate-300">Multi-Level Queue</span></div></div>
+              </div>
+              <span class="absolute bottom-5 right-6 eyebrow text-[9px] text-slate-600">04 — SCHEDULING</span>
+            </div>
+            <div class="p-6 sm:p-8">
+              <div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-sky-300/20 bg-sky-300/[0.07] px-2.5 py-1 text-[10px] font-medium text-sky-200">Algorithms</span><span class="text-[10px] text-slate-600">Platform Technologies (PT101)</span></div>
+              <h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Memory and CPU Scheduling Simulators</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-400">Programs that allocate memory and schedule processes, then show the result as a Gantt chart.</p>
+              <div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Python</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">C++</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Java</span></div>
+              <div class="mt-7 flex items-center justify-between border-t border-white/[0.07] pt-5"><button class="case-open inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="os">Explore case study <span aria-hidden="true">↗</span></button><span class="text-[10px] text-slate-600">Coursework</span></div>
+            </div>
+          </article>
+
           <!-- Research item -->
           <article class="project-card card reveal overflow-hidden rounded-3xl lg:col-span-2" data-category="research">
             <div class="grid lg:grid-cols-[.8fr_1.2fr]">
@@ -432,29 +347,49 @@
                 <h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Technology and Academic Performance Study</h3>
                 <p class="mt-3 max-w-3xl text-sm leading-7 text-slate-400">A school research project examining the impact of technology on the academic performance of aspiring engineering students at Saint John School, Makapilapil, San Ildefonso, Bulacan. The working study involved Grade 12 students and survey-based data collection.</p>
                 <div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Research methods</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Google Forms</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Descriptive statistics</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Statistical testing</span></div>
-                <div class="mt-7 border-t border-white/[0.07] pt-5"><p class="text-xs leading-6 text-slate-500">Research scope and results should be updated to match the final submitted paper before publication.</p><button class="case-open mt-3 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="study">Explore case study <span aria-hidden="true">↗</span></button></div>
+                <div class="mt-7 border-t border-white/[0.07] pt-5"><p class="text-xs leading-6 text-slate-500">Senior high school research project.</p></div>
               </div>
             </div>
           </article>
-        </div>
 
-          <!-- Additional projects: based on coursework and projects discussed -->
-          <article class="project-card card reveal group overflow-hidden rounded-3xl" data-category="web">
-            <div class="relative min-h-[220px] border-b border-line bg-[#111a26] p-7 sm:p-8"><div class="absolute -right-8 -top-10 h-48 w-48 rounded-full bg-amber-300/[0.08] blur-3xl"></div><div class="relative rounded-xl border border-line bg-[#0b1018] p-5"><div class="flex items-center justify-between text-xs text-slate-400"><span>VHK Construction Supply</span><span>Inventory / Cash flow</span></div><div class="mt-5 grid grid-cols-3 gap-2"><div class="h-14 rounded-lg border border-line bg-white/[0.03] p-2"><div class="h-1.5 w-8 bg-amber-300/50"></div><div class="mt-3 h-2 w-10 bg-slate-600/60"></div></div><div class="h-14 rounded-lg border border-line bg-white/[0.03] p-2"><div class="h-1.5 w-8 bg-emerald-300/50"></div><div class="mt-3 h-2 w-10 bg-slate-600/60"></div></div><div class="h-14 rounded-lg border border-line bg-white/[0.03] p-2"><div class="h-1.5 w-8 bg-sky-300/50"></div><div class="mt-3 h-2 w-10 bg-slate-600/60"></div></div></div><div class="mt-3 h-12 rounded-lg border border-line bg-gradient-to-r from-amber-300/[0.07] to-transparent"></div></div><span class="absolute bottom-5 right-6 eyebrow text-[9px] text-slate-600">03 — BUSINESS SYSTEM</span></div>
-            <div class="p-6 sm:p-8"><div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-amber-300/20 bg-amber-300/[0.07] px-2.5 py-1 text-[10px] font-medium text-amber-200">Group project</span><span class="text-[10px] text-slate-600">IT225</span></div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">VHK Construction Supply: Inventory, Sales & Cash Flow</h3><p class="mt-3 text-sm leading-7 text-slate-400">A plain-PHP system concept for a construction supply store to manage products, inventory, sales, and cash-flow records.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">PHP</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">MySQL</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">HTML</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">CSS</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">JavaScript</span></div><div class="mt-7 flex items-center justify-between border-t border-white/[0.07] pt-5"><button class="case-open inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="vhk">Explore case study <span aria-hidden="true">↗</span></button><span class="text-[10px] text-slate-600">Group of five</span></div></div>
-          </article>
-          <article class="project-card card reveal group overflow-hidden rounded-3xl" data-category="code">
-            <div class="relative min-h-[220px] border-b border-line bg-[#111624] p-7 sm:p-8"><div class="absolute left-0 top-0 h-full w-full bg-gradient-to-br from-indigo-400/[0.06] to-transparent"></div><div class="relative rounded-xl border border-line bg-[#0b1018] p-5 font-mono text-xs text-slate-400"><div class="text-indigo-200">Process Scheduler / Simulation</div><div class="mt-4 grid grid-cols-4 gap-1"><div class="rounded bg-indigo-300/20 p-2 text-center">P1</div><div class="rounded bg-emerald-300/20 p-2 text-center">P2</div><div class="rounded bg-sky-300/20 p-2 text-center">P3</div><div class="rounded bg-amber-300/20 p-2 text-center">P4</div></div><div class="mt-3 flex justify-between text-[10px]"><span>0</span><span>4</span><span>7</span><span>11</span><span>15</span></div></div><span class="absolute bottom-5 right-6 eyebrow text-[9px] text-slate-600">04 — ALGORITHM SIMULATORS</span></div>
-            <div class="p-6 sm:p-8"><div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-indigo-300/20 bg-indigo-300/[0.07] px-2.5 py-1 text-[10px] font-medium text-indigo-200">Programming coursework</span><span class="text-[10px] text-slate-600">Platform Technologies</span></div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Memory & CPU Scheduling Simulators</h3><p class="mt-3 text-sm leading-7 text-slate-400">Algorithm exercises implementing memory allocation and CPU scheduling, with process timelines and Gantt chart-style output.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Python</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">C++</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Java</span></div><div class="mt-7 flex items-center justify-between border-t border-white/[0.07] pt-5"><button class="case-open inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="scheduling">Explore case study <span aria-hidden="true">↗</span></button><span class="text-[10px] text-slate-600">Algorithm practice</span></div></div>
+          <article class="project-card card reveal group overflow-hidden rounded-3xl" data-category="research">
+            <div class="relative min-h-[220px] overflow-hidden border-b border-line bg-[#0b1421] p-6 sm:p-8">
+              <div class="absolute right-[-2rem] top-[-4rem] h-52 w-52 rounded-full bg-rose-400/[0.1] blur-3xl transition-transform duration-500 group-hover:scale-125"></div>
+              <div class="relative mx-auto max-w-sm rounded-xl border border-slate-700/70 bg-[#0b101a] p-4 shadow-2xl sm:p-5">
+                <div class="flex items-center justify-between border-b border-white/[0.07] pb-3"><span class="text-[10px] font-medium text-slate-300">Script · Draft</span><span class="text-[9px] text-slate-600">SSP101</span></div>
+                <div class="mt-4 space-y-2"><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-rose-300"></span><span class="text-[10px] text-slate-300">Huwag Kang Matakot</span></div><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-rose-300"></span><span class="text-[10px] text-slate-300">Hilom ng Lahi</span></div><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-rose-300"></span><span class="text-[10px] text-slate-300">Expanded-cast version</span></div></div>
+              </div>
+              <span class="absolute bottom-5 right-6 eyebrow text-[9px] text-slate-600">06 — SCRIPTWRITING</span>
+            </div>
+            <div class="p-6 sm:p-8">
+              <div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-rose-300/20 bg-rose-300/[0.07] px-2.5 py-1 text-[10px] font-medium text-rose-200">Writing</span><span class="text-[10px] text-slate-600">SSP101 film contest</span></div>
+              <h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Film Scripts: Huwag Kang Matakot and Hilom ng Lahi</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-400">Two scripts for a contest themed "Lead like the Babaylans, Filipinas!", plus an expanded version for a cast of up to 40.</p>
+              <div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Scriptwriting</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Folk drama</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Short film</span></div>
+              <div class="mt-7 flex items-center justify-between border-t border-white/[0.07] pt-5"><button class="case-open inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="film">Explore case study <span aria-hidden="true">↗</span></button><span class="text-[10px] text-slate-600">Contest entry</span></div>
+            </div>
           </article>
 
-          <article class="project-card card reveal overflow-hidden rounded-3xl" data-category="creative"><div class="p-6 sm:p-8"><div class="eyebrow text-[10px] text-mint">SCRIPTWRITING</div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Huwag Kang Matakot & Hilom ng Lahi</h3><p class="mt-3 text-sm leading-7 text-slate-400">Two original film scripts for a themed contest, including a drama about a teacher in a conflict-affected area and a folk story centered on Babaylan lineage.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Screenwriting</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Story development</span></div><button class="case-open mt-7 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="scripts">Explore case study ↗</button></div></article>
-          <article class="project-card card reveal overflow-hidden rounded-3xl" data-category="creative"><div class="p-6 sm:p-8"><div class="eyebrow text-[10px] text-accent">MEDIA PRODUCTION</div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Institute of Computer Studies Promotional Video</h3><p class="mt-3 text-sm leading-7 text-slate-400">A group promo video project for ICS at BASC involving voice-over writing, shot planning, and production planning around available resources.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Scriptwriting</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Video planning</span></div><button class="case-open mt-7 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="promo">Explore case study ↗</button></div></article>
-          <article class="project-card card reveal overflow-hidden rounded-3xl" data-category="web"><div class="p-6 sm:p-8"><div class="eyebrow text-[10px] text-accent">WEB DEVELOPMENT EXERCISE</div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Student Records CRUD</h3><p class="mt-3 text-sm leading-7 text-slate-400">PHP and MySQL practice implementing CRUD operations and debugging record updates, form methods, and missing input names.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">PHP</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">MySQL</span></div><button class="case-open mt-7 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="crud">Explore case study ↗</button></div></article>
-          <article class="project-card card reveal overflow-hidden rounded-3xl" data-category="hardware"><div class="p-6 sm:p-8"><div class="eyebrow text-[10px] text-mint">DIGITAL LOGIC / HARDWARE</div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Simple Logic Probe (IT 312)</h3><p class="mt-3 text-sm leading-7 text-slate-400">A breadboard circuit designed to indicate HIGH and LOW digital signal states using an inverter, transistor circuitry, and LEDs.</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">74HC04</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">2N3904</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">LEDs</span></div><button class="case-open mt-7 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="logic">Explore case study ↗</button></div></article>
-          <article class="project-card card reveal overflow-hidden rounded-3xl" data-category="database"><div class="p-6 sm:p-8"><div class="eyebrow text-[10px] text-accent">DATABASE DESIGN</div><h3 class="mt-4 text-xl font-semibold tracking-tight text-white">ER Diagrams & Database Normalization</h3><p class="mt-3 text-sm leading-7 text-slate-400">Database design exercises covering ERDs, weak entities, identifying relationships, and normalization through Third Normal Form (3NF).</p><div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">ERD</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Normalization</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">3NF</span></div><button class="case-open mt-7 inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="database">Explore case study ↗</button></div></article>
+          <article class="project-card card reveal group overflow-hidden rounded-3xl" data-category="research">
+            <div class="relative min-h-[220px] overflow-hidden border-b border-line bg-[#0b1421] p-6 sm:p-8">
+              <div class="absolute right-[-2rem] top-[-4rem] h-52 w-52 rounded-full bg-indigo-400/[0.1] blur-3xl transition-transform duration-500 group-hover:scale-125"></div>
+              <div class="relative mx-auto max-w-sm rounded-xl border border-slate-700/70 bg-[#0b101a] p-4 shadow-2xl sm:p-5">
+                <div class="flex items-center justify-between border-b border-white/[0.07] pb-3"><span class="text-[10px] font-medium text-slate-300">ICS Promo · Plan</span><span class="text-[9px] text-slate-600">2 MIN</span></div>
+                <div class="mt-4 space-y-2"><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-indigo-300"></span><span class="text-[10px] text-slate-300">Voice-over script</span></div><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-indigo-300"></span><span class="text-[10px] text-slate-300">Shot planning</span></div><div class="flex items-center gap-2 rounded-lg border border-line bg-white/[0.025] p-3"><span class="h-1.5 w-1.5 rounded-full bg-indigo-300"></span><span class="text-[10px] text-slate-300">Editing by our videographer</span></div></div>
+              </div>
+              <span class="absolute bottom-5 right-6 eyebrow text-[9px] text-slate-600">07 — VIDEO PROJECT</span>
+            </div>
+            <div class="p-6 sm:p-8">
+              <div class="flex flex-wrap items-center gap-2"><span class="rounded-full border border-indigo-300/20 bg-indigo-300/[0.07] px-2.5 py-1 text-[10px] font-medium text-indigo-200">Video project</span><span class="text-[10px] text-slate-600">Group project, BASC</span></div>
+              <h3 class="mt-4 text-xl font-semibold tracking-tight text-white">Promo Video for the Institute of Computer Studies</h3>
+              <p class="mt-3 text-sm leading-7 text-slate-400">A 2-minute promotional video for ICS at BASC, planned around what a small student team can realistically shoot.</p>
+              <div class="mt-5 flex flex-wrap gap-2"><span class="tag rounded-md px-2.5 py-1 text-[10px]">Voice-over script</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Video production</span><span class="tag rounded-md px-2.5 py-1 text-[10px]">Teamwork</span></div>
+              <div class="mt-7 flex items-center justify-between border-t border-white/[0.07] pt-5"><button class="case-open inline-flex items-center gap-2 text-xs font-semibold text-slate-200 transition hover:text-accent" data-case="promo">Explore case study <span aria-hidden="true">↗</span></button><span class="text-[10px] text-slate-600">In progress</span></div>
+            </div>
+          </article>
         </div>
-        <p id="noProjects" class="hidden text-center text-sm text-slate-500 lg:col-span-2">No projects in this category yet.</p>
+        <div class="mt-5 grid gap-5 md:grid-cols-3"><article class="project-card card reveal rounded-2xl p-5" data-category="code"><p class="eyebrow text-[9px] text-accent">PHP + MySQL</p><h3 class="mt-3 text-sm font-semibold text-white">Student records CRUD</h3><p class="mt-2 text-xs leading-6 text-slate-400">Course exercises I debugged until they behaved: missing WHERE clauses on UPDATE, GET vs POST forms, missing name attributes.</p></article><article class="project-card card reveal rounded-2xl p-5" data-category="code"><p class="eyebrow text-[9px] text-accent">IT 312 lab</p><h3 class="mt-3 text-sm font-semibold text-white">Simple Logic Probe</h3><p class="mt-2 text-xs leading-6 text-slate-400">A breadboard circuit with a 74HC04 inverter, 2N3904 transistors, and red and green LEDs that shows HIGH or LOW signals.</p></article><article class="project-card card reveal rounded-2xl p-5" data-category="code"><p class="eyebrow text-[9px] text-accent">IT 224</p><h3 class="mt-3 text-sm font-semibold text-white">ER diagrams and normalization</h3><p class="mt-2 text-xs leading-6 text-slate-400">Hand-drawn ER diagrams with weak entities and identifying relationships, plus normalization exercises through 3NF.</p></article></div>
+        <p id="noProjects" class="mt-8 hidden text-center text-sm text-slate-500">No projects in this category yet.</p>
       </div>
     </section>
 
@@ -462,15 +397,18 @@
     <section id="journey" class="border-y border-white/[0.06] bg-white/[0.015] py-24 sm:py-28">
       <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
         <div class="grid gap-14 lg:grid-cols-[.78fr_1.22fr] lg:gap-20">
-          <div class="reveal"><p class="eyebrow text-[11px] text-accent">03 / Journey</p><h2 class="mt-5 text-3xl font-semibold tracking-[-.04em] text-white sm:text-4xl">Building the foundation behind the work.</h2><p class="mt-5 text-sm leading-7 text-slate-400">My learning path combines application development with networking, security, and analytical coursework. The details below are intentionally conservative; add exact dates and official titles where marked.</p></div>
+          <div class="reveal"><p class="eyebrow text-[11px] text-accent">03 / Journey</p><h2 class="mt-5 text-3xl font-semibold tracking-[-.04em] text-white sm:text-4xl">Building the foundation behind the work.</h2><p class="mt-5 text-sm leading-7 text-slate-400">Where I study, and what I’ve picked up along the way.</p></div>
           <div class="reveal">
             <div class="relative space-y-8 before:absolute before:bottom-3 before:left-[7px] before:top-2 before:w-px before:bg-gradient-to-b before:from-accent/60 before:via-slate-700 before:to-transparent">
-              <article class="relative pl-9"><span class="timeline-dot absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-accent bg-ink"></span><p class="eyebrow text-[9px] text-accent">Education · dates to add</p><h3 class="mt-2 text-base font-semibold text-white">BASC — Higher education coursework</h3><p class="mt-2 text-sm leading-6 text-slate-400">Student coursework includes IT-related subjects and NSTP-CWTS. Add your exact degree/program, campus name, year level, and attendance dates.</p><p class="mt-2 text-[11px] text-slate-600">[INSERT_PROGRAM] · [INSERT_START_YEAR–EXPECTED_GRADUATION]</p></article>
-              <article class="relative pl-9"><span class="timeline-dot absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-slate-500 bg-ink"></span><p class="eyebrow text-[9px] text-slate-500">Certification · verify details</p><h3 class="mt-2 text-base font-semibold text-white">Google Cybersecurity Certificate</h3><p class="mt-2 text-sm leading-6 text-slate-400">This credential was mentioned in prior career-profile context. Confirm that it was completed and add the official credential link and completion date before presenting it as earned.</p><p class="mt-2 text-[11px] text-slate-600">[INSERT_CREDENTIAL_URL] · [INSERT_COMPLETION_DATE]</p></article>
-              <article class="relative pl-9"><span class="timeline-dot absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-slate-500 bg-ink"></span><p class="eyebrow text-[9px] text-slate-500">Student activities · details to confirm</p><h3 class="mt-2 text-base font-semibold text-white">Builders Information Technology Society</h3><p class="mt-2 text-sm leading-6 text-slate-400">Organization involvement was mentioned previously. Add your actual position, contributions, and participation dates if applicable.</p><p class="mt-2 text-[11px] text-slate-600">[INSERT_ROLE_AND_DATES]</p></article>
-              <article class="relative pl-9"><span class="timeline-dot absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-slate-500 bg-ink"></span><p class="eyebrow text-[9px] text-slate-500">Event · details to confirm</p><h3 class="mt-2 text-base font-semibold text-white">National hackathon participation</h3><p class="mt-2 text-sm leading-6 text-slate-400">A national hackathon was referenced in prior context, but the event name, year, team role, and result were not available.</p><p class="mt-2 text-[11px] text-slate-600">[INSERT_EVENT_NAME] · [INSERT_YEAR_AND_RESULT]</p></article>
+              <article class="relative pl-9"><span class="timeline-dot absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-accent bg-ink"></span><p class="eyebrow text-[9px] text-accent">Education</p><h3 class="mt-2 text-base font-semibold text-white">Bulacan Agricultural State College</h3><p class="mt-2 text-sm leading-6 text-slate-400">BS Information Technology. Coursework so far covers web systems, integrative programming, databases, networking, and platform technologies.</p><!-- TODO: add exact years, e.g. 2024 to 2028 --></article>
+              <article class="relative pl-9"><span class="timeline-dot absolute left-0 top-1.5 h-3.5 w-3.5 rounded-full border-2 border-slate-500 bg-ink"></span><p class="eyebrow text-[9px] text-slate-500">Before college</p><h3 class="mt-2 text-base font-semibold text-white">Saint John School, San Ildefonso, Bulacan</h3><p class="mt-2 text-sm leading-6 text-slate-400">Grade 12, where I worked on the technology and academic performance study listed above.</p></article>
             </div>
-            <div class="mt-10 rounded-2xl border border-amber-200/10 bg-amber-200/[0.035] p-4"><p class="text-xs leading-6 text-amber-100/75"><strong class="font-semibold text-amber-100">Before publishing:</strong> keep only credentials and memberships you can verify. A simulated job title or roleplay background is not listed as employment experience.</p></div>
+            <!--
+  UNVERIFIED, kept out of the page on purpose. Add back only when you can prove each one:
+  - Google Cybersecurity Certificate (credential URL + completion date)
+  - Builders Information Technology Society (your actual role + dates)
+  - National hackathon (event name, year, role, result)
+-->
           </div>
         </div>
       </div>
@@ -493,21 +431,15 @@
             <p id="formStatus" role="status" aria-live="polite" class="mt-4 hidden rounded-lg border border-line bg-white/[0.03] px-3 py-2 text-xs leading-5 text-slate-300"></p>
           </form>
         </div>
-        <div class="reveal mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-slate-500">
-          <span>Email: <strong class="font-medium text-slate-300">[INSERT_EMAIL]</strong></span>
-          <span class="hidden h-1 w-1 rounded-full bg-slate-700 sm:block"></span>
-          <span>GitHub: <strong class="font-medium text-slate-300">[INSERT_GITHUB_URL]</strong></span>
-          <span class="hidden h-1 w-1 rounded-full bg-slate-700 sm:block"></span>
-          <span>LinkedIn: <strong class="font-medium text-slate-300">[INSERT_LINKEDIN_URL]</strong></span>
-        </div>
+        <div id="contactLinks" class="reveal mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs text-slate-400"></div>
       </div>
     </section>
   </main>
 
-   <footer class="border-t border-white/[0.06] py-7">
+  <footer class="border-t border-white/[0.06] py-7">
     <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 text-center sm:flex-row sm:px-8 sm:text-left lg:px-10">
       <a href="#home" class="text-xs font-semibold tracking-tight text-slate-300">Royvil Domingo<span class="text-accent">.</span></a>
-      <p class="text-[10px] text-slate-600">Designed and built with HTML, Tailwind CSS, and vanilla JavaScript.</p>
+      <p class="text-[10px] text-slate-600">Built with HTML, Tailwind CSS, vanilla JavaScript, and GSAP.</p>
       <a href="#home" class="text-[10px] text-slate-500 transition hover:text-white">Back to top ↑</a>
     </div>
   </footer>
@@ -516,15 +448,19 @@
   <div id="caseModal" class="modal-backdrop fixed inset-0 z-[70] hidden items-center justify-center overflow-y-auto p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalSummary">
     <div class="modal-panel my-auto w-full max-w-2xl rounded-3xl border border-white/10 bg-[#0d121d] shadow-2xl">
       <div class="flex items-start justify-between gap-5 border-b border-white/[0.07] p-6 sm:p-8"><div><p id="modalEyebrow" class="eyebrow text-[9px] text-accent">CASE STUDY</p><h2 id="modalTitle" class="mt-3 text-2xl font-semibold tracking-tight text-white">Project title</h2></div><button id="modalClose" class="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-line text-slate-400 transition hover:border-slate-500 hover:text-white" aria-label="Close case study"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke-linecap="round"/></svg></button></div>
-      <div class="space-y-6 p-6 sm:p-8"><p id="modalSummary" class="text-sm leading-7 text-slate-400"></p><div><h3 class="text-xs font-semibold uppercase tracking-wider text-slate-200">Problem & approach</h3><p id="modalProblem" class="mt-2 text-sm leading-7 text-slate-400"></p></div><div><h3 class="text-xs font-semibold uppercase tracking-wider text-slate-200">Architecture / features</h3><ul id="modalFeatures" class="mt-3 grid gap-2 sm:grid-cols-2"></ul></div><div><h3 class="text-xs font-semibold uppercase tracking-wider text-slate-200">Technology</h3><p id="modalStack" class="mt-2 text-sm leading-7 text-slate-400"></p></div><div class="rounded-xl border border-amber-200/10 bg-amber-200/[0.035] p-4"><p class="text-xs leading-6 text-amber-100/75">Repository and live-demo details have not been provided yet. Replace the placeholders in the project card or add your verified links before publishing.</p></div><div class="flex flex-wrap gap-3"><span id="modalGithub" class="rounded-full border border-line px-4 py-2 text-[10px] text-slate-500">GitHub: [INSERT_GITHUB_URL]</span><span id="modalDemo" class="rounded-full border border-line px-4 py-2 text-[10px] text-slate-500">Live demo: [INSERT_LIVE_DEMO_URL]</span></div></div>
+      <div class="space-y-6 p-6 sm:p-8"><p id="modalSummary" class="text-sm leading-7 text-slate-400"></p><div><h3 class="text-xs font-semibold uppercase tracking-wider text-slate-200">Problem & approach</h3><p id="modalProblem" class="mt-2 text-sm leading-7 text-slate-400"></p></div><div><h3 class="text-xs font-semibold uppercase tracking-wider text-slate-200">Architecture / features</h3><ul id="modalFeatures" class="mt-3 grid gap-2 sm:grid-cols-2"></ul></div><div><h3 class="text-xs font-semibold uppercase tracking-wider text-slate-200">Technology</h3><p id="modalStack" class="mt-2 text-sm leading-7 text-slate-400"></p></div></div>
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
     // ================================================================
     // PERSONALIZE THESE VALUES BEFORE DEPLOYING
     // ================================================================
     const CONTACT_EMAIL = '[INSERT_EMAIL]';
+    const GITHUB_URL = '[INSERT_GITHUB_URL]';
+    const LINKEDIN_URL = '[INSERT_LINKEDIN_URL]';
     // Add real project URLs to the relevant project cards after publishing.
 
     const caseStudies = {
@@ -545,6 +481,38 @@
         ],
         stack: 'Laravel 12, PHP, MySQL / MariaDB, Blade, JavaScript, CSS, Vite. The application follows an MVC structure with dedicated models and controllers for its main modules.'
       },
+      vhk: {
+        eyebrow: 'WEB APPLICATION · GROUP PROJECT · IT 225',
+        title: 'VHK Construction Supply: Inventory, Sales and Cash Flow',
+        summary: 'A web system that tracks stock, sales and cash flow for a construction supply business.',
+        problem: 'Our group of five proposed three client ideas, and VHK was the one approved at the proposal defense. Course rules meant no frameworks, so everything is plain PHP, HTML, CSS and MySQL, with vanilla JavaScript only for form validation.',
+        features: ['Login', 'Dashboard', 'Products and categories (CRUD)', 'Inventory, sales and cash flow monitoring'],
+        stack: 'PHP (no framework), HTML, CSS, MySQL, vanilla JavaScript.'
+      },
+      os: {
+        eyebrow: 'ALGORITHMS · PLATFORM TECHNOLOGIES (PT101)',
+        title: 'Memory and CPU Scheduling Simulators',
+        summary: 'Programs that allocate memory and schedule processes, then show the result as a Gantt chart.',
+        problem: 'I implemented the algorithms in Python, C++ and Java to see how they actually behave, and worked through disk scheduling by hand to check my understanding.',
+        features: ['Best-fit and worst-fit memory allocation', 'SJF, SRTF, Round Robin, Multi-Level Queue', 'Gantt chart output', 'Disk scheduling by hand: SSTF, SCAN, C-SCAN, LOOK, C-LOOK'],
+        stack: 'Python, C++, Java.'
+      },
+      film: {
+        eyebrow: 'WRITING · SSP101 FILM CONTEST',
+        title: 'Film Scripts: Huwag Kang Matakot and Hilom ng Lahi',
+        summary: 'Scripts for a contest themed "Lead like the Babaylans, Filipinas!"',
+        problem: 'One follows a teacher in a conflict-affected area. The other is a folk drama about Babaylan lineage, and I also wrote an expanded version for a cast of up to 40.',
+        features: ['Two original scripts', 'An expanded-cast version'],
+        stack: 'Scriptwriting.'
+      },
+      promo: {
+        eyebrow: 'VIDEO PROJECT · GROUP WORK · BASC',
+        title: 'Promo Video for the Institute of Computer Studies',
+        summary: 'A 2-minute promotional video for ICS at Bulacan Agricultural State College.',
+        problem: 'We are a small student team with limited gear, so we are studying how existing school promo videos pace their voice-over and building ours around what we can realistically shoot.',
+        features: ['Voice-over script', 'Shot planning around our resources'],
+        stack: 'Scriptwriting and video production (team effort).'
+      },
       borrow: {
         eyebrow: 'PYTHON WEB APPLICATION · ACADEMIC BUILD',
         title: 'Flask Library / Equipment Borrowing System',
@@ -558,56 +526,9 @@
           'Quantity-aware borrowing rules',
           'Separate borrower-facing experience'
         ],
-        stack: 'Python, Flask, HTML, CSS, SQL, and SQLite. The remembered project structure includes equipment, borrowers, and borrowings data.'
-      }      ,
-      vhk: { eyebrow:'PHP WEB APPLICATION · GROUP PROJECT', title:'VHK Construction Supply: Inventory, Sales & Cash Flow', summary:'Construction supply store workflow proposal and application project.', problem:'Products, inventory quantities, sales and cash-flow information need to be organized in one simple system. The project was selected after a proposal defense and developed under coursework rules that prohibited frameworks.', features:['Login and dashboard','Products and categories CRUD','Inventory tracking','Sales and cash-flow monitoring','Group project with five members'], stack:'Plain PHP, HTML, CSS, MySQL, and vanilla JavaScript. No PHP framework used.' },
-      scheduling: { eyebrow:'ALGORITHMS · PLATFORM TECHNOLOGIES', title:'Memory & CPU Scheduling Simulators', summary:'Programming exercises that implement core memory allocation and CPU scheduling algorithms.', problem:'The exercises help compare how allocation and scheduling approaches handle process workloads and how each algorithm changes execution order and waiting time.', features:['Best-fit and worst-fit memory allocation','SJF and SRTF','Round Robin','Multilevel Queue','Gantt chart-style timeline output','Disk scheduling exercises: SSTF, SCAN, C-SCAN, LOOK, and C-LOOK'], stack:'Python, C++, and Java. Disk scheduling was also practiced manually for comparison.' },
-      study: { eyebrow:'RESEARCH · SENIOR HIGH SCHOOL', title:'Technology & Academic Performance Study', summary:'Survey-based research examining technology use and academic performance among aspiring engineering students.', problem:'The research explored technology’s impact on academic performance among Grade 12 students at Saint John School, Makapilapil, San Ildefonso, Bulacan.', features:['Survey design using Google Forms','Data collection and descriptive statistics','Normality testing','Group comparisons and interpretation'], stack:'Google Forms and statistical analysis methods. Specific sample size and results should be confirmed before publishing.' },
-      scripts: { eyebrow:'CREATIVE WRITING · SSP101 FILM CONTEST', title:'Huwag Kang Matakot & Hilom ng Lahi', summary:'Two original film scripts written for a contest theme about leadership inspired by Babaylan traditions.', problem:'The scripts explored different story settings and cultural themes, including a teacher in a conflict-affected area and a folk drama about Babaylan lineage.', features:['Two original scripts','Expanded-cast version of Hilom ng Lahi','Story development and dialogue writing'], stack:'Original scriptwriting and story development.' },
-      promo: { eyebrow:'MEDIA PRODUCTION · GROUP PROJECT', title:'Institute of Computer Studies Promotional Video', summary:'A group promotional video concept for the Institute of Computer Studies at BASC.', problem:'The group planned a short promotional video while working with limited equipment and production resources.', features:['Voice-over script planning','Shot list and pacing plan','Production planning based on available resources'], stack:'Collaborative scriptwriting and video production planning.' },
-      crud: { eyebrow:'WEB DEVELOPMENT · COURSEWORK', title:'Student Records CRUD', summary:'PHP and MySQL exercises implementing create, read, update, and delete workflows.', problem:'Practice exercises focused on learning how form data reaches the backend and how database records are safely updated.', features:['Create and list student records','Update records using correct form methods','Debug missing WHERE clauses','Correct GET/POST and form name issues'], stack:'PHP and MySQL.' },
-      logic: { eyebrow:'HARDWARE · IT 312', title:'Simple Logic Probe', summary:'Breadboard circuit project designed to indicate digital HIGH and LOW signal states.', problem:'A simple circuit can provide a visual indication of the logic level present at a signal point for basic digital troubleshooting.', features:['Breadboard circuit','74HC04 inverter IC','2N3904 transistor circuitry','Red and green LED indicators'], stack:'74HC04, 2N3904 transistor(s), LEDs, breadboard, and basic digital logic.' },
-      database: { eyebrow:'DATABASE DESIGN · IT 224', title:'ER Diagrams & Database Normalization', summary:'Database design exercises exploring entity relationships and normalized relational structures.', problem:'Database structures need clear entities, keys, relationships, and constraints to reduce redundancy and support consistent data.', features:['Entity Relationship Diagrams','Weak entities','Identifying relationships','Normalization through 3NF'], stack:'Relational database design, ER modeling, normalization.' }
+        stack: 'Python, Flask, HTML, CSS, SQL, and SQLite. The data model covers equipment, borrowers, and borrowings.'
+      }
     };
-
-
-    // Theme mode: follow system by default, remember explicit user selection.
-    const themeRoot = document.documentElement;
-    const themeButtons = [document.getElementById('themeToggle'), document.getElementById('themeToggleMobile')].filter(Boolean);
-    const systemTheme = () => matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    function applyTheme(theme, save = false) {
-      themeRoot.dataset.theme = theme;
-      themeRoot.style.colorScheme = theme;
-      const themeColor = document.querySelector('meta[name="theme-color"]');
-      if (themeColor) themeColor.setAttribute('content', theme === 'light' ? '#f4f7fb' : '#080b12');
-      themeButtons.forEach(button => {
-        const light = theme === 'light';
-        button.textContent = button.id === 'themeToggleMobile' ? (light ? '🌙 Dark mode' : '☀️ Light mode') : (light ? '🌙' : '☀️');
-        button.setAttribute('aria-label', light ? 'Switch to dark mode' : 'Switch to light mode');
-        button.title = light ? 'Switch to dark mode' : 'Switch to light mode';
-      });
-      if (save) { try { localStorage.setItem('portfolio-theme', theme); } catch(e) {} }
-    }
-    let savedTheme = null;
-    try { savedTheme = localStorage.getItem('portfolio-theme'); } catch(e) {}
-    applyTheme(savedTheme || systemTheme());
-    themeButtons.forEach(button => button.addEventListener('click', () => {
-      const next = themeRoot.dataset.theme === 'dark' ? 'light' : 'dark';
-      applyTheme(next, true);
-      button.animate([{transform:'scale(.86) rotate(-12deg)'},{transform:'scale(1) rotate(0deg)'}], {duration:260, easing:'cubic-bezier(.2,.8,.2,1)'});
-    }));
-    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-      let saved = null; try { saved = localStorage.getItem('portfolio-theme'); } catch(e) {}
-      if (!saved) applyTheme(event.matches ? 'dark' : 'light');
-    });
-
-    // Button hover/press micro-interactions (CSS + pointer animation).
-    const motionOK = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (motionOK) {
-      document.querySelectorAll('button, .btn-primary, .btn-secondary').forEach(el => {
-        el.addEventListener('pointerdown', () => { el.animate([{transform:'scale(1)'},{transform:'scale(.96)'},{transform:'scale(1)'}], {duration:180, easing:'ease-out'}); });
-      });
-    }
 
     // Mobile navigation
     const menuToggle = document.getElementById('menuToggle');
@@ -635,9 +556,13 @@
       projectCards.forEach(card => {
         const visible = filter === 'all' || card.dataset.category === filter;
         card.classList.toggle('hidden', !visible);
-        if (visible) { visibleCount++; if (!matchMedia('(prefers-reduced-motion: reduce)').matches) card.animate([{opacity:0, transform:'translateY(10px)'},{opacity:1,transform:'translateY(0)'}], {duration:240, easing:'ease-out'}); }
+        if (visible) visibleCount++;
       });
       noProjects.classList.toggle('hidden', visibleCount > 0);
+      if (ok) {
+        gsap.fromTo(projectCards.filter(c => !c.classList.contains('hidden')), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .45, stagger: .07, ease: 'power2.out', overwrite: true, clearProps: 'opacity,transform' });
+        if (window.ScrollTrigger) ScrollTrigger.refresh();
+      }
     }));
 
     // Case-study modal
@@ -725,16 +650,54 @@
     window.addEventListener('scroll', updateProgress, { passive: true });
     updateProgress();
 
-    // Subtle reveal on scroll; content stays visible when reduced motion is requested.
+    // Contact links (only shown once real values are filled in)
+    const real = v => v && !v.includes('INSERT_');
+    document.getElementById('contactLinks').innerHTML = [[CONTACT_EMAIL, 'mailto:' + CONTACT_EMAIL, 'Email'], [GITHUB_URL, GITHUB_URL, 'GitHub'], [LINKEDIN_URL, LINKEDIN_URL, 'LinkedIn']]
+      .filter(l => real(l[0])).map(l => `<a class="nav-link underline underline-offset-4" href="${l[1]}">${l[2]}</a>`).join('');
+
+    // Theme toggle: follows the system at first, then remembers the visitor's choice
+    const root = document.documentElement, themeBtn = document.getElementById('themeToggle');
+    const SUN = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/></svg>';
+    const MOON = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5Z"/></svg>';
+    function paintTheme() {
+      const dark = root.dataset.theme !== 'light';
+      themeBtn.innerHTML = dark ? SUN : MOON;
+      themeBtn.setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+    }
+    paintTheme();
+    themeBtn.addEventListener('click', () => {
+      const next = root.dataset.theme === 'light' ? 'dark' : 'light';
+      root.classList.add('tt'); root.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      paintTheme();
+      if (ok) gsap.fromTo(themeBtn, { rotate: -90, scale: .7 }, { rotate: 0, scale: 1, duration: .45, ease: 'back.out(2)', clearProps: 'transform' });
+      setTimeout(() => root.classList.remove('tt'), 400);
+    });
+
+    // Motion (GSAP). Falls back to the plain CSS reveal if GSAP is missing or reduced motion is on.
+    const ok = !!window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const revealItems = document.querySelectorAll('.reveal');
-    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (ok) {
+      root.classList.add('gsap-on');
+      revealItems.forEach(item => item.classList.add('is-visible'));
+      gsap.timeline({ defaults: { ease: 'power3.out' } })
+        .from('header', { y: -24, opacity: 0, duration: .5 })
+        .from('#home .relative.z-10 > *', { y: 28, opacity: 0, duration: .7, stagger: .1 }, '-=.2')
+        .from('#home [class~="lg:ml-auto"]', { y: 36, opacity: 0, duration: .9 }, '-=.6');
+      if (window.ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.set('.reveal', { opacity: 0, y: 26 });
+        ScrollTrigger.batch('.reveal', { start: 'top 90%', once: true,
+          onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: .7, stagger: .1, ease: 'power2.out', overwrite: true, clearProps: 'opacity,transform' }) });
+      }
+      const bsel = '.btn-primary,.btn-secondary,.filter-btn,.case-open,.nav-link,#themeToggle,.card';
+      document.addEventListener('mouseover', e => { const b = e.target.closest(bsel); if (b && !b.contains(e.relatedTarget)) gsap.to(b, { y: b.matches('.card') ? -4 : -2, duration: .2, ease: 'power2.out', overwrite: 'auto' }); });
+      document.addEventListener('mouseout', e => { const b = e.target.closest(bsel); if (b && !b.contains(e.relatedTarget)) gsap.to(b, { y: 0, scale: 1, duration: .3, ease: 'power2.out', overwrite: 'auto' }); });
+      document.addEventListener('pointerdown', e => { const b = e.target.closest(bsel); if (b && !b.matches('.card')) gsap.to(b, { scale: .95, duration: .1 }); });
+      document.addEventListener('pointerup', e => { const b = e.target.closest(bsel); if (b && !b.matches('.card')) gsap.to(b, { scale: 1, duration: .3, ease: 'back.out(3)' }); });
+    } else if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            obs.unobserve(entry.target);
-          }
-        });
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); obs.unobserve(entry.target); } });
       }, { threshold: 0.12 });
       revealItems.forEach(item => observer.observe(item));
     } else {
