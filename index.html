@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#080b12">
+  <script src="progress.js"></script>
+  <script src="tabs.js"></script>
   <script>(function(){var t;try{t=localStorage.getItem("theme")}catch(e){}if(!t)t=matchMedia("(prefers-color-scheme:light)").matches?"light":"dark";document.documentElement.dataset.theme=t})()</script>
   <meta name="description" content="Royvil Domingo — student developer building practical web systems, database-driven applications, and secure, maintainable software.">
   <link rel="icon" type="image/x-icon" href="profile.png">
@@ -93,13 +95,120 @@
     .skip-link { position: absolute; top: -60px; left: 1rem; z-index: 100; padding: .75rem 1rem; background: #fff; color: #080b12; border-radius: .5rem; }
     .skip-link:focus { top: 1rem; }
     :focus-visible { outline: 2px solid rgb(var(--acc)); outline-offset: 3px; }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-      .reveal { opacity: 1; transform: none; }
-    }
+    #pageLoader { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: rgb(var(--ink)); transition: opacity .24s ease; }
+    #pageLoader .loader-content { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 280px; min-width: 280px; max-width: calc(100vw - 32px); padding: 50px 24px 44px; }
+    #pageLoader sakuga-progress { --sk-progress-width: 280px; --sk-card: rgb(var(--panel)); --sk-ink: rgb(var(--w)); --sk-fill: rgb(var(--acc)); --sk-accent: rgb(var(--mint)); --sk-soft: rgb(var(--acc) / .25); --sk-sh: 5px 5px 0 rgb(var(--acc) / .25); }
+    html.loader-lock, html.loader-lock body { overflow: hidden; }
+    @media (max-width: 390px) { #pageLoader .loader-content { min-width: 0; width: calc(100vw - 32px); } }
+
+    html[data-theme="dark"] header { --sk-card: rgb(var(--panel)); --sk-ink: rgb(var(--w)); --sk-soft: rgb(var(--acc) / .18); --sk-sh: 3px 3px 0 rgb(var(--acc) / .12); --sk-r: 12px; --sk-bw: 2px; }
+    html[data-theme="light"] header { --sk-card: rgb(var(--panel)); --sk-ink: rgb(var(--w)); --sk-soft: rgb(var(--acc) / .12); --sk-sh: 3px 3px 0 rgb(var(--acc) / .10); --sk-r: 12px; --sk-bw: 2px; }
+    #headerTabs { --sk-card: rgb(var(--panel)); --sk-ink: rgb(var(--w)); --sk-soft: rgb(var(--acc) / .18); --sk-sh: 3px 3px 0 rgb(var(--acc) / .12); --sk-r: 12px; --sk-bw: 2px; }
+
+
   </style>
 </head>
 <body class="noise overflow-x-hidden">
+  <noscript><style>#pageLoader{display:none!important}html.loader-lock,html.loader-lock body{overflow:auto}</style></noscript>
+  <div id="pageLoader" role="status" aria-live="polite" aria-busy="true">
+    <div class="loader-content">
+      <sakuga-progress id="pageLoadProgress" label="Loading portfolio"></sakuga-progress>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const loader = document.getElementById('pageLoader');
+      let firstVisit = true;
+      try { firstVisit = sessionStorage.getItem('portfolioLoaderSeen') !== '1'; } catch (_) {}
+      if (!firstVisit) {
+        loader.remove();
+        document.documentElement.classList.remove('loader-lock');
+        window._portfolioLoaderComplete = true;
+        window.startPortfolioAnimations?.();
+        return;
+      }
+      document.documentElement.classList.add('loader-lock');
+      const bar = document.getElementById('pageLoadProgress');
+      let current = 0, finished = false, removed = false;
+      const onlyUp = n => { current = Math.max(current, Math.min(1, n)); if (bar && bar.set) bar.set(current); };
+      onlyUp(0);
+
+      if (document.readyState === 'interactive' || document.readyState === 'complete') onlyUp(.3);
+      else document.addEventListener('readystatechange', () => {
+        if (document.readyState === 'interactive' || document.readyState === 'complete') onlyUp(.3);
+      });
+
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => onlyUp(.5));
+
+      const resources = [];
+      document.querySelectorAll('img').forEach(img => resources.push({ el: img, done: false }));
+      document.querySelectorAll('body *').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > innerHeight) return;
+        const bg = getComputedStyle(el).backgroundImage;
+        if (bg && bg !== 'none') bg.replace(/url\(["']?([^"')]+)["']?\)/g, (_, url) => { resources.push({ url, done: false }); return ''; });
+      });
+      const unique = [];
+      const seen = new Set();
+      resources.forEach(resource => {
+        const key = resource.el ? resource.el.src : resource.url;
+        if (key && !seen.has(key)) { seen.add(key); unique.push(resource); }
+      });
+      let complete = 0;
+      const resourceFinished = () => {
+        complete++;
+        onlyUp(unique.length ? .5 + (.4 * (complete / unique.length)) : .5);
+      };
+      unique.forEach(resource => {
+        if (resource.el) {
+          const img = resource.el;
+          if (img.complete) resourceFinished();
+          else { img.addEventListener('load', resourceFinished, { once: true }); img.addEventListener('error', resourceFinished, { once: true }); }
+        } else {
+          const image = new Image();
+          image.onload = resourceFinished;
+          image.onerror = resourceFinished;
+          image.src = resource.url;
+        }
+      });
+
+      window.addEventListener('load', () => onlyUp(1), { once: true });
+
+      const startPage = () => {
+        if (removed) return;
+        removed = true;
+        document.documentElement.classList.remove('loader-lock');
+        loader.setAttribute('aria-busy', 'false');
+        try { sessionStorage.setItem('portfolioLoaderSeen', '1'); } catch (_) {}
+        window._portfolioLoaderComplete = true;
+        window.startPortfolioAnimations?.();
+        loader.remove();
+      };
+
+      if (bar && bar.addEventListener) {
+        bar.addEventListener('sakuga:done', () => {
+          if (finished) return;
+          finished = true;
+          loader.style.opacity = '0';
+          if (matchMedia('(prefers-reduced-motion: reduce)').matches) startPage();
+          else {
+            loader.addEventListener('transitionend', startPage, { once: true });
+            setTimeout(() => startPage(), 300);
+          }
+        });
+      } else {
+        startPage();
+      }
+
+      setTimeout(() => {
+        if (!finished && !removed) {
+          onlyUp(1);
+          startPage();
+        }
+      }, 10000);
+    }());
+  </script>
+
   <a href="#main" class="skip-link">Skip to content</a>
   <div class="fixed inset-x-0 top-0 z-[60] h-[2px] bg-transparent"><div id="scrollProgress" class="h-full w-full bg-gradient-to-r from-accent to-mint"></div></div>
 
@@ -117,20 +226,22 @@
         <span class="grid h-9 w-9 place-items-center rounded-xl border border-indigo-300/20 bg-indigo-300/10 font-semibold text-indigo-100"><img src="profile.png" alt="RD"></span>
         <span class="text-sm font-semibold tracking-tight text-slate-100">Royvil Domingo<span class="text-accent">.</span></span>
       </a>
-      <div class="hidden items-center gap-8 text-[13px] font-medium md:flex">
-        <a class="nav-link" href="#about">About</a>
-        <a class="nav-link" href="#projects">Projects</a>
-        <a class="nav-link" href="#journey">Journey</a>
-        <a class="nav-link" href="#contact">Contact</a>
+      <div class="hidden items-center gap-8 text-[13px] font-medium lg:flex">
+        <sakuga-tabs id="headerTabs" label="Page sections" selected="0">
+          <option value="about">About</option>
+          <option value="projects">Projects</option>
+          <option value="journey">Journey</option>
+          <option value="contact">Contact</option>
+        </sakuga-tabs>
       </div>
       <div class="flex items-center gap-3"><button id="themeToggle" type="button" class="grid h-9 w-9 place-items-center rounded-full border border-line text-slate-200"></button>
-      <a href="#contact" class="hidden rounded-full px-4 py-2 text-xs font-semibold btn-secondary md:inline-flex">Let’s connect <span aria-hidden="true" class="ml-2">↗</span></a>
-      <button id="menuToggle" class="grid h-10 w-10 place-items-center rounded-lg border border-line text-slate-200 md:hidden" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
+      <a href="#contact" class="hidden rounded-full px-4 py-2 text-xs font-semibold btn-secondary lg:inline-flex">Let’s connect <span aria-hidden="true" class="ml-2">↗</span></a>
+      <button id="menuToggle" class="grid h-10 w-10 place-items-center rounded-lg border border-line text-slate-200 lg:hidden" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">
         <svg id="menuIcon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg>
       </button>
       </div>
     </nav>
-    <div id="mobileMenu" class="hidden border-t border-white/[0.06] px-5 py-4 md:hidden">
+    <div id="mobileMenu" class="hidden border-t border-white/[0.06] px-5 py-4 lg:hidden">
       <div class="mx-auto flex max-w-7xl flex-col gap-4 text-sm">
         <a class="nav-link mobile-nav-link" href="#about">About</a>
         <a class="nav-link mobile-nav-link" href="#projects">Projects</a>
@@ -432,10 +543,9 @@
               <div><sakuga-input id="senderName" name="name" type="text" label="Your name" placeholder="Full Name" autocomplete="name" required></sakuga-input></div>
               <div><sakuga-input id="senderEmail" name="email" type="email" label="Your email" placeholder="email@example.com" autocomplete="email" required></sakuga-input></div>
             </div>
-            <div class="mt-5"><sakuga-input id="senderSubject" name="subject" type="text" label="Subject" placeholder="What's on your mind?" required></sakuga-input></div>
+            <div class="mt-5"><sakuga-input id="senderSubject" name="subject" type="text" label="Subject" placeholder="Subject" required></sakuga-input></div>
             <div class="mt-5"><label for="senderMessage" class="mb-2 block text-xs font-medium text-slate-300">Message</label><textarea id="senderMessage" name="message" rows="5" required maxlength="4000" class="w-full resize-y rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-sm leading-6 text-white placeholder:text-slate-600 outline-none transition focus:border-accent/70" placeholder="A little context about your message..."></textarea></div>
             <div class="mt-5 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center"><sakuga-button id="submitSakuga" type="submit">Confirm</sakuga-button><sakuga-button id="cancelSakuga" variant="secondary">Cancel</sakuga-button><p class="text-[10px] leading-5 text-slate-600">Opens your default email app. No message is stored by this page.</p></div>
-            <div class="mt-5 flex justify-center"><sakuga-progress id="mailProgress" label="Preparing email message"></sakuga-progress></div>
             <p id="formStatus" role="status" aria-live="polite" class="mt-4 hidden rounded-lg border border-line bg-white/[0.03] px-3 py-2 text-xs leading-5 text-slate-300"></p>
           </form>
         </div>
@@ -462,8 +572,6 @@
 
   <script src="button.js"></script>
   <script src="input.js"></script>
-  <script src="tabs.js"></script>
-  <script src="progress.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script>
@@ -557,24 +665,54 @@
       menuToggle.setAttribute('aria-label', 'Open navigation menu');
     }));
 
-    // Project filters
-    const projectTabs = document.getElementById('projectTabs');
-    const projectCards = [...document.querySelectorAll('.project-card')];
-    const noProjects = document.getElementById('noProjects');
-    projectTabs.addEventListener('change', event => {
-      const filter = event.detail.value;
-      let visibleCount = 0;
-      projectCards.forEach(card => {
-        const visible = filter === 'all' || card.dataset.category === filter;
-        card.classList.toggle('hidden', !visible);
-        if (visible) visibleCount++;
+    // Header page-section navigation
+    const headerTabs = document.getElementById('headerTabs');
+    const sectionIds = ['about', 'projects', 'journey', 'contact'];
+    const sectionElements = sectionIds.map(id => document.getElementById(id));
+    let tabScrollPause = false;
+    let tabScrollTimer = 0;
+
+    const sectionIndexFromScroll = () => {
+      if (window.scrollY < 350) return 0;
+      let current = 0;
+      sectionElements.forEach((section, index) => {
+        if (section && section.getBoundingClientRect().top <= window.innerHeight * 0.35) current = index;
       });
-      noProjects.classList.toggle('hidden', visibleCount > 0);
-      if (ok) {
-        gsap.fromTo(projectCards.filter(c => !c.classList.contains('hidden')), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .45, stagger: .07, ease: 'power2.out', overwrite: true, clearProps: 'opacity,transform' });
-        if (window.ScrollTrigger) ScrollTrigger.refresh();
-      }
+      return current;
+    };
+
+    headerTabs.addEventListener('change', event => {
+      const id = event.detail.value;
+      const section = document.getElementById(id);
+      if (!section) return;
+      tabScrollPause = true;
+      clearTimeout(tabScrollTimer);
+      history.replaceState(null, '', '#' + id);
+      section.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      tabScrollTimer = setTimeout(() => { tabScrollPause = false; }, 1200);
     });
+
+    const scrollSpyObserver = new IntersectionObserver(entries => {
+      if (tabScrollPause) return;
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+      if (visible.length) {
+        const id = visible[0].target.id;
+        const index = sectionIds.indexOf(id);
+        if (index >= 0) headerTabs.selected = index;
+      }
+    }, { rootMargin: '-20% 0px -55% 0px', threshold: [0, .1, .25] });
+    sectionElements.forEach(section => section && scrollSpyObserver.observe(section));
+
+    if ('onscrollend' in window) {
+      window.addEventListener('scrollend', () => {
+        if (!tabScrollPause) headerTabs.selected = sectionIndexFromScroll();
+      });
+    }
+
+    const hashIndex = sectionIds.indexOf(location.hash.slice(1));
+    headerTabs.selected = hashIndex >= 0 ? hashIndex : sectionIndexFromScroll();
 
     // Case-study modal
     const modal = document.getElementById('caseModal');
@@ -632,26 +770,16 @@
     const formStatus = document.getElementById('formStatus');
     const submitSakuga = document.getElementById('submitSakuga');
     const cancelSakuga = document.getElementById('cancelSakuga');
-    const mailProgress = document.getElementById('mailProgress');
 
     cancelSakuga.addEventListener('click', () => {
       contactForm.reset();
-      mailProgress.reset();
       formStatus.classList.add('hidden');
       formStatus.classList.remove('text-amber-200');
-    });
-
-    mailProgress.set(0, true);
-    mailProgress.addEventListener('sakuga:done', () => {
-      submitSakuga.done();
-      formStatus.textContent = 'Email prepared. Review the message in your email application and send it when ready.';
     });
 
     contactForm.addEventListener('submit', event => {
       event.preventDefault();
       formStatus.classList.remove('hidden');
-      mailProgress.reset();
-      mailProgress.set(.25);
       if (!contactForm.reportValidity()) return;
       if (!CONTACT_EMAIL || CONTACT_EMAIL.includes('INSERT_')) {
         formStatus.textContent = 'Set CONTACT_EMAIL near the top of the script to your real email address. The form will then prepare a message in the visitor’s default email app.';
@@ -668,7 +796,6 @@
       formStatus.classList.remove('text-amber-200');
       formStatus.textContent = 'Your email application should open with the message prepared. Review it and send when ready.';
       window.location.href = mailto;
-      mailProgress.set(1);
     });
 
     // Scroll progress
@@ -708,32 +835,32 @@
     // Motion (GSAP). Falls back to the plain CSS reveal if GSAP is missing or reduced motion is on.
     const ok = !!window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const revealItems = document.querySelectorAll('.reveal');
-    if (ok) {
-      root.classList.add('gsap-on');
-      revealItems.forEach(item => item.classList.add('is-visible'));
-      gsap.timeline({ defaults: { ease: 'power3.out' } })
-        .from('header', { y: -24, opacity: 0, duration: .5 })
-        .from('#home .relative.z-10 > *', { y: 28, opacity: 0, duration: .7, stagger: .1 }, '-=.2')
-        .from('#home [class~="lg:ml-auto"]', { y: 36, opacity: 0, duration: .9 }, '-=.6');
-      if (window.ScrollTrigger) {
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.set('.reveal', { opacity: 0, y: 26 });
-        ScrollTrigger.batch('.reveal', { start: 'top 90%', once: true,
-          onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: .7, stagger: .1, ease: 'power2.out', overwrite: true, clearProps: 'opacity,transform' }) });
+    window.startPortfolioAnimations = function () {
+      if (window.__portfolioAnimationsStarted) return;
+      window.__portfolioAnimationsStarted = true;
+      if (ok) {
+        root.classList.add('gsap-on');
+        revealItems.forEach(item => item.classList.add('is-visible'));
+        gsap.timeline({ defaults: { ease: 'power3.out' } })
+          .from('header', { y: -24, opacity: 0, duration: .5 })
+          .from('#home .relative.z-10 > *', { y: 28, opacity: 0, duration: .7, stagger: .1 }, '-=.2')
+          .from('#home [class~="lg:ml-auto"]', { y: 36, opacity: 0, duration: .9 }, '-=.6');
+        if (window.ScrollTrigger) {
+          gsap.registerPlugin(ScrollTrigger);
+          gsap.set('.reveal', { opacity: 0, y: 26 });
+          ScrollTrigger.batch('.reveal', { start: 'top 90%', once: true,
+            onEnter: batch => gsap.to(batch, { opacity: 1, y: 0, duration: .7, stagger: .1, ease: 'power2.out', overwrite: true, clearProps: 'opacity,transform' }) });
+        }
+      } else if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const observer = new IntersectionObserver((entries, obs) => {
+          entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); obs.unobserve(entry.target); } });
+        }, { threshold: 0.12 });
+        revealItems.forEach(item => observer.observe(item));
+      } else {
+        revealItems.forEach(item => item.classList.add('is-visible'));
       }
-      const bsel = '.btn-primary,.btn-secondary,.filter-btn,.case-open,.nav-link,#themeToggle,.card';
-      document.addEventListener('mouseover', e => { const b = e.target.closest(bsel); if (b && !b.contains(e.relatedTarget)) gsap.to(b, { y: b.matches('.card') ? -4 : -2, duration: .2, ease: 'power2.out', overwrite: 'auto' }); });
-      document.addEventListener('mouseout', e => { const b = e.target.closest(bsel); if (b && !b.contains(e.relatedTarget)) gsap.to(b, { y: 0, scale: 1, duration: .3, ease: 'power2.out', overwrite: 'auto' }); });
-      document.addEventListener('pointerdown', e => { const b = e.target.closest(bsel); if (b && !b.matches('.card')) gsap.to(b, { scale: .95, duration: .1 }); });
-      document.addEventListener('pointerup', e => { const b = e.target.closest(bsel); if (b && !b.matches('.card')) gsap.to(b, { scale: 1, duration: .3, ease: 'back.out(3)' }); });
-    } else if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); obs.unobserve(entry.target); } });
-      }, { threshold: 0.12 });
-      revealItems.forEach(item => observer.observe(item));
-    } else {
-      revealItems.forEach(item => item.classList.add('is-visible'));
-    }
+    };
+    if (window._portfolioLoaderComplete) window.startPortfolioAnimations();
   </script>
 </body>
 </html>
