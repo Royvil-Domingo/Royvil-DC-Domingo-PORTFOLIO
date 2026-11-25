@@ -714,6 +714,32 @@
     const hashIndex = sectionIds.indexOf(location.hash.slice(1));
     headerTabs.selected = hashIndex >= 0 ? hashIndex : sectionIndexFromScroll();
 
+    // Project filters
+    const projectTabs = document.getElementById('projectTabs');
+    const projectCards = document.querySelectorAll('.project-card');
+    const noProjects = document.getElementById('noProjects');
+
+    projectTabs.addEventListener('change', e => {
+      const filter = e.detail.value;
+      let visibleCards = 0;
+
+      projectCards.forEach(card => {
+        const matches = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !matches);
+        if (matches) visibleCards++;
+      });
+
+      noProjects.classList.toggle('hidden', visibleCards > 0);
+
+      if (window.gsap && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const visible = [...projectCards].filter(card => !card.classList.contains('hidden'));
+        gsap.fromTo(visible,
+          { opacity: 0, y: 14 },
+          { opacity: 1, y: 0, duration: .45, stagger: .08, ease: 'power2.out', overwrite: true, clearProps: 'opacity,transform' }
+        );
+      }
+    });
+
     // Case-study modal
     const modal = document.getElementById('caseModal');
     const modalClose = document.getElementById('modalClose');
